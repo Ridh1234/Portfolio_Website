@@ -9,6 +9,19 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "blob": "40% 60% 60% 40% / 60% 30% 70% 40%",
+      },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["Fira Code", "monospace"],
+        heading: ["Space Grotesk", "sans-serif"],
+      },
+      backgroundColor: {
+        "background-alt": "hsl(var(--background-alt))",
+      },
+      textColor: {
+        "text-primary": "hsl(var(--text-primary))",
+        "text-secondary": "hsl(var(--text-secondary))",
       },
       colors: {
         background: "hsl(var(--background))",

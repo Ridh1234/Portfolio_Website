@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   const navLinks = [
     { title: "About", href: "#about" },
     { title: "Skills", href: "#skills" },
@@ -13,81 +13,95 @@ const Navbar = () => {
     { title: "Achievements", href: "#achievements" },
     { title: "Contact", href: "#contact" },
   ];
-
+  
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
-
+    
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
-
+  
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+  
   return (
-    <nav className={`fixed top-0 w-full bg-background/80 backdrop-blur-lg z-50 px-6 py-4 border-b transition-all duration-300 ${scrolled ? 'border-white/10' : 'border-transparent'}`}>
+    <header className={`fixed top-0 left-0 w-full py-4 px-6 z-50 transition-all duration-300 ${
+      isScrolled ? "bg-background/80 backdrop-blur shadow-lg" : "bg-transparent"
+    }`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link href="/">
-          <a className="text-2xl font-bold font-heading text-white cursor-pointer">
-            <span className="text-primary">H</span>.<span className="text-secondary">S</span>
+          <a className="text-2xl font-bold font-heading" data-cursor-interactive>
+            <span className="text-primary">H</span>ridyansh <span className="text-secondary">S</span>harma
           </a>
         </Link>
-        <div className="hidden md:flex space-x-8">
+        
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
             <a
               key={link.title}
               href={link.href}
-              className="text-text-primary hover:text-secondary transition-colors"
+              className="text-text-secondary hover:text-secondary transition-colors"
               data-cursor-interactive
             >
               {link.title}
             </a>
           ))}
-        </div>
+        </nav>
+        
+        {/* Mobile Menu Button */}
         <button 
-          className="block md:hidden text-white"
-          onClick={() => setIsOpen(true)}
-          aria-label="Open menu"
+          className="md:hidden text-text-secondary p-2"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
           data-cursor-interactive
         >
-          <i className="fas fa-bars text-xl"></i>
+          <div className={`w-6 h-0.5 bg-current transition-all ${isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}></div>
+          <div className={`w-6 h-0.5 bg-current my-1.5 transition-all ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`}></div>
+          <div className={`w-6 h-0.5 bg-current transition-all ${isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}></div>
         </button>
       </div>
       
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            className="fixed inset-0 bg-background/95 z-50 flex flex-col justify-center items-center md:hidden"
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        {isMobileMenuOpen && (
+          <motion.div
+            className="fixed inset-0 bg-background/95 backdrop-blur pt-20 z-40"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
           >
-            <button 
-              className="absolute top-6 right-6 text-white"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close menu"
-              data-cursor-interactive
-            >
-              <i className="fas fa-times text-xl"></i>
-            </button>
-            <div className="flex flex-col space-y-6 text-xl">
-              {navLinks.map((link) => (
-                <a
+            <nav className="flex flex-col items-center space-y-6 py-8">
+              {navLinks.map((link, index) => (
+                <motion.a
                   key={link.title}
                   href={link.href}
-                  className="text-text-primary hover:text-secondary transition-colors text-center"
-                  onClick={() => setIsOpen(false)}
+                  className="text-xl text-text-secondary hover:text-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                   data-cursor-interactive
                 >
                   {link.title}
-                </a>
+                </motion.a>
               ))}
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 
