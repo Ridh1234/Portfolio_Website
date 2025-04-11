@@ -2,97 +2,125 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Counter from "@/components/Counter";
 
+const achievements = [
+  {
+    icon: "fas fa-trophy",
+    value: 15,
+    title: "Awards Won",
+    description: "Recognized for excellence in hackathons and coding competitions."
+  },
+  {
+    icon: "fas fa-project-diagram",
+    value: 50,
+    title: "Projects Completed",
+    description: "Successfully delivered projects across different domains."
+  },
+  {
+    icon: "fas fa-users",
+    value: 120000,
+    title: "Users Impacted",
+    description: "Created solutions that improved user experiences."
+  },
+  {
+    icon: "fas fa-lightbulb",
+    value: 3,
+    title: "Research Publications",
+    description: "Published papers on AI and machine learning applications."
+  }
+];
+
+const certifications = [
+  {
+    title: "AWS Certified Solutions Architect",
+    organization: "Amazon Web Services",
+    year: 2024
+  },
+  {
+    title: "TensorFlow Developer Certificate",
+    organization: "Google",
+    year: 2023
+  },
+  {
+    title: "Full Stack Web Development",
+    organization: "Meta",
+    year: 2023
+  },
+  {
+    title: "Machine Learning Specialization",
+    organization: "Stanford University",
+    year: 2022
+  }
+];
+
 const Achievements = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
   
-  const competitiveProgramming = [
-    {
-      platform: "LeetCode",
-      icon: "fas fa-trophy",
-      description: "Ranked in top",
-      value: 4.22,
-      unit: "%",
-      additionalText: "globally"
-    },
-    {
-      platform: "CodeChef",
-      icon: "fas fa-medal",
-      description: "",
-      value: 5,
-      unit: "-star",
-      additionalText: "coder with",
-      rightValue: 2156,
-      rightUnit: "",
-      rightDescription: "rating"
-    },
-    {
-      platform: "HackerRank",
-      icon: "fas fa-award",
-      description: "",
-      value: "Gold Badge",
-      unit: "",
-      additionalText: "in Problem Solving"
-    }
-  ];
-  
-  const certifications = [
-    {
-      name: "Google TensorFlow Developer",
-      icon: "fab fa-google",
-      description: "Professional certification in ML model development"
-    },
-    {
-      name: "AWS Certified Solutions Architect",
-      icon: "fab fa-aws",
-      description: "Expert-level cloud architecture certification"
-    },
-    {
-      name: "National AI Challenge 2023",
-      icon: "fas fa-laptop-code",
-      description: "",
-      prefix: "2nd place",
-      value: "among",
-      rightValue: 342,
-      rightUnit: "",
-      rightDescription: "teams"
-    }
-  ];
-  
-  const stats = [
-    { label: "Projects Completed", value: 15 },
-    { label: "Certifications", value: 6 },
-    { label: "Hackathon Wins", value: 5 },
-    { label: "Coding Problems Solved", value: 350, suffix: "+" }
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
-      transition: { 
-        staggerChildren: 0.2
+      transition: {
+        staggerChildren: 0.1
       }
     }
   };
   
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
   };
 
   return (
-    <section id="achievements" className="py-20 px-6 bg-background-alt/50 relative" ref={sectionRef}>
+    <section className="py-20 px-6 bg-background-alt" id="achievements" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl font-bold font-heading mb-4">My <span className="text-primary">Achievements</span></h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
-        </motion.div>
+        <div className="text-center mb-16">
+          <motion.h2 
+            className="text-4xl font-bold mb-4 font-heading inline-block"
+            initial={{ opacity: 0, y: -20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-primary">Achievements</span> & Certifications
+          </motion.h2>
+          <motion.div 
+            className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto"
+            initial={{ opacity: 0, width: 0 }}
+            animate={isInView ? { opacity: 1, width: 80 } : { opacity: 0, width: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          ></motion.div>
+          <motion.p 
+            className="text-text-secondary mt-6 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            Recognition and professional development milestones that reflect my commitment to excellence.
+          </motion.p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+          {achievements.map((item, index) => (
+            <motion.div 
+              key={index}
+              className="bg-background p-6 rounded-lg border border-border shadow-lg hover:shadow-primary/10 text-center transform hover:-translate-y-1 transition-all"
+              variants={itemVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              transition={{ delay: 0.1 * index }}
+              data-cursor-interactive
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                <i className={`${item.icon} text-white text-2xl`}></i>
+              </div>
+              <h3 className="text-3xl font-bold mb-2 text-text-primary">
+                <Counter value={item.value} />
+              </h3>
+              <h4 className="text-lg font-semibold mb-2 text-secondary">{item.title}</h4>
+              <p className="text-text-secondary text-sm">{item.description}</p>
+            </motion.div>
+          ))}
+        </div>
         
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
@@ -100,135 +128,79 @@ const Achievements = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Coding Platforms */}
-          <motion.div 
-            className="bg-background/80 backdrop-blur p-8 rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all group"
-            variants={itemVariants}
-            data-cursor-interactive
-          >
-            <div className="flex items-center mb-6">
-              <div className="w-16 h-16 bg-background-alt rounded-full flex items-center justify-center mr-4 group-hover:animate-spin-slow">
-                <i className="fas fa-code text-secondary text-2xl"></i>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-text-primary">Competitive Programming</h3>
-                <p className="text-text-secondary">Excellence in coding challenges</p>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              {competitiveProgramming.map((item, index) => (
-                <div key={index} className="bg-background/60 p-4 rounded-lg flex items-center">
-                  <div className="mr-4">
-                    <i className={`${item.icon} text-2xl text-yellow-500`}></i>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-text-primary">{item.platform}</h4>
-                    <p className="text-text-secondary text-sm">
-                      {item.description && <span>{item.description} </span>}
-                      {typeof item.value === 'number' 
-                        ? <Counter 
-                            value={item.value} 
-                            className="text-secondary font-bold" 
-                            decimals={item.value % 1 !== 0 ? 2 : 0}
-                          /> 
-                        : <span className="text-secondary font-bold">{item.value}</span>
-                      }
-                      {item.unit && <span className="text-secondary font-bold">{item.unit}</span>}
-                      {item.additionalText && <span> {item.additionalText}</span>}
-                      {item.rightValue && (
-                        <>
-                          {" with "}
-                          <Counter 
-                            value={item.rightValue} 
-                            className="text-secondary font-bold"
-                            decimals={0}
-                          />
-                          {item.rightUnit && <span>{item.rightUnit}</span>}
-                          {item.rightDescription && <span> {item.rightDescription}</span>}
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          
-          {/* Certifications & Awards */}
-          <motion.div 
-            className="bg-background/80 backdrop-blur p-8 rounded-xl hover:shadow-lg hover:shadow-primary/20 transition-all group"
-            variants={itemVariants}
-            data-cursor-interactive
-          >
-            <div className="flex items-center mb-6">
-              <div className="w-16 h-16 bg-background-alt rounded-full flex items-center justify-center mr-4 group-hover:animate-spin-slow">
-                <i className="fas fa-certificate text-primary text-2xl"></i>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-text-primary">Certifications & Awards</h3>
-                <p className="text-text-secondary">Professional recognitions</p>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              {certifications.map((cert, index) => (
-                <div key={index} className="bg-background/60 p-4 rounded-lg flex items-center">
-                  <div className="mr-4 text-secondary">
-                    <i className={`${cert.icon} text-2xl`}></i>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-text-primary">{cert.name}</h4>
-                    <p className="text-text-secondary text-sm">
-                      {cert.prefix && <span className="text-secondary font-bold">{cert.prefix} </span>}
-                      {cert.description || (
-                        <>
-                          {cert.value && <span>{cert.value} </span>}
-                          {cert.rightValue && (
-                            <Counter 
-                              value={cert.rightValue} 
-                              className="text-secondary font-bold"
-                              decimals={0}
-                            />
-                          )}
-                          {cert.rightUnit && <span>{cert.rightUnit}</span>}
-                          {cert.rightDescription && <span> {cert.rightDescription}</span>}
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-        
-        {/* Achievement Stats */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          {stats.map((stat, index) => (
-            <motion.div 
-              key={index}
-              className="bg-background/60 p-6 rounded-lg text-center hover:transform hover:-translate-y-2 transition-transform"
-              whileHover={{ y: -8 }}
-              custom={index}
-              transition={{ duration: 0.3 }}
-              data-cursor-interactive
+          <div>
+            <motion.h3 
+              className="text-2xl font-bold mb-6 font-heading text-primary"
+              variants={itemVariants}
             >
-              <div className="text-4xl font-bold text-secondary mb-2">
-                <Counter 
-                  value={stat.value} 
-                  decimals={0}
-                  suffix={stat.suffix || ""}
-                />
-              </div>
-              <div className="text-text-secondary">{stat.label}</div>
+              Professional Certifications
+            </motion.h3>
+            <motion.div 
+              className="space-y-5"
+              variants={containerVariants}
+            >
+              {certifications.map((cert, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-background p-5 rounded-lg border border-border flex items-center hover:shadow-lg hover:shadow-primary/10 transition-all transform hover:-translate-y-1"
+                  variants={itemVariants}
+                  data-cursor-interactive
+                >
+                  <div className="mr-4 hidden sm:block">
+                    <div className="w-12 h-12 bg-background-alt rounded-full flex items-center justify-center">
+                      <span className="text-secondary font-bold">{cert.year}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
+                    <p className="text-text-secondary">
+                      <span className="text-secondary">{cert.organization}</span>
+                      <span className="text-xs ml-2 md:hidden">{cert.year}</span>
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
+          </div>
+          
+          <div>
+            <motion.h3 
+              className="text-2xl font-bold mb-6 font-heading text-primary"
+              variants={itemVariants}
+            >
+              Education & Training
+            </motion.h3>
+            <motion.div 
+              className="bg-background p-6 rounded-lg border border-border h-full"
+              variants={itemVariants}
+            >
+              <div className="timeline-container mb-0 h-full">
+                <div className="timeline-dot mt-0"></div>
+                <div className="pb-8">
+                  <h4 className="text-lg font-semibold text-text-primary">B.Tech in Computer Science</h4>
+                  <p className="text-secondary">IIIT Vadodara</p>
+                  <p className="text-text-secondary text-sm">2022 - Present</p>
+                  <p className="mt-2 text-text-secondary">Focusing on AI/ML, web technologies, and system architecture.</p>
+                </div>
+                
+                <div className="timeline-dot"></div>
+                <div className="pb-8">
+                  <h4 className="text-lg font-semibold text-text-primary">Deep Learning Specialization</h4>
+                  <p className="text-secondary">Coursera (Andrew Ng)</p>
+                  <p className="text-text-secondary text-sm">2023</p>
+                  <p className="mt-2 text-text-secondary">Mastered neural networks, optimization algorithms, and computer vision applications.</p>
+                </div>
+                
+                <div className="timeline-dot"></div>
+                <div>
+                  <h4 className="text-lg font-semibold text-text-primary">Full Stack Development Bootcamp</h4>
+                  <p className="text-secondary">Udemy</p>
+                  <p className="text-text-secondary text-sm">2022</p>
+                  <p className="mt-2 text-text-secondary">Learned modern web development stack including React, Node.js, and MongoDB.</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

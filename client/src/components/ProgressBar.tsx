@@ -1,22 +1,30 @@
-import { useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState, useEffect } from "react";
 
 interface ProgressBarProps {
   percentage: number;
 }
 
 const ProgressBar = ({ percentage }: ProgressBarProps) => {
-  const progressRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(progressRef, { once: true });
-
+  const [width, setWidth] = useState(0);
+  
+  useEffect(() => {
+    // Animate the progress bar when component mounts
+    const timer = setTimeout(() => {
+      setWidth(percentage);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [percentage]);
+  
   return (
-    <div className="progress-bar" ref={progressRef}>
-      <motion.div 
+    <div className="progress-bar">
+      <div 
         className="progress-bar-fill bg-gradient-to-r from-primary to-secondary"
-        initial={{ width: 0 }}
-        animate={isInView ? { width: `${percentage}%` } : { width: 0 }}
-        transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-      ></motion.div>
+        style={{ 
+          width: `${width}%`,
+          transition: "width 1s ease-in-out"
+        }}
+      ></div>
     </div>
   );
 };
