@@ -1,0 +1,59 @@
+Replit AI Portfolio Website Prompt
+Create a visually striking portfolio website for Hridyansh Sharma, a software developer with expertise in full-stack development, machine learning, and AI. The website should feature a dark theme, modern design elements, 3D animations, and interactive components that showcase his technical skills and projects.
+Overall Design
+
+Dark theme with subtle gradients and accent colors (deep blues, purples, and neon highlights)
+Sleek, modern interface with minimal navigation
+Responsive design that works across all devices
+Custom cursor effects and smooth scrolling animations
+Dynamic background with subtle particle or code rain effects
+
+Header/Hero Section
+
+3D animated name that morphs or transforms on hover
+Floating 3D geometric shapes that respond to mouse movement
+Typewriter effect for "Software Developer" title
+Tech stack icons that float and glow around the hero section
+Subtle particle background that reacts to cursor movement
+
+About Section
+
+Interactive timeline showing education at IIIT Vadodara (2022-Present)
+Skills represented as 3D objects or interactive chips that expand with details on hover
+Programming languages visualized as animated code snippets with progress bars
+Tech stack visualization with interconnected nodes showing relationships between skills
+
+Projects Section
+
+3D card carousel for showcasing the three main projects
+Each project card should flip or expand to reveal details
+For Neural Text-to-Speech: Animated sound waves that respond to hover
+For Document Structure Analysis: Interactive document mockup with highlighting animation
+For AI Hiring Assistant: Chatbot simulation with typing animation
+Interactive demos or GitHub links with hover effects
+
+Achievements Section
+
+Animated badges for LeetCode and CodeChef rankings
+Progress counters that increment to show rankings (top 4.22%)
+Interactive code challenge visualization
+Certification logos with glow effects
+
+Contact Section
+
+3D contact form that rotates slightly on hover
+Social media links with interactive hover animations
+Email address with copy-to-clipboard functionality
+Location map with subtle animation
+
+Technical Implementation
+
+Use Three.js for 3D elements and animations
+React.js for component-based structure
+GSAP for smooth animations and transitions
+Tailwind CSS for styling and responsiveness
+Framer Motion for micro-interactions
+Particle.js or similar for background effects
+Dark mode toggle with smooth transition
+
+Remember to optimize performance despite the heavy animations, using techniques like lazy loading, code splitting, and efficient rendering to ensure the site loads quickly and runs smoothly across devices.RetryClaude can make mistakes. Please double-check responses.
