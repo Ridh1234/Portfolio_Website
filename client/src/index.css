@@ -43,6 +43,16 @@
     transition: width 0.2s ease, height 0.2s ease;
   }
   
+  /* Contact section particles */
+  .particles-container {
+    overflow: hidden;
+  }
+  
+  .particle {
+    box-shadow: 0 0 10px 2px var(--tw-shadow-color);
+    --tw-shadow-color: hsl(var(--primary));
+  }
+  
   /* Background particles animation */
   @keyframes floating {
     0% {

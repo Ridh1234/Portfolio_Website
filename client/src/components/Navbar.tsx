@@ -46,7 +46,7 @@ const Navbar = () => {
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <a
               key={link.title}
@@ -57,6 +57,21 @@ const Navbar = () => {
               {link.title}
             </a>
           ))}
+          
+          <a
+            href="#contact"
+            className="px-5 py-2 bg-gradient-to-r from-primary to-blue-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-primary/20 transition-all"
+            data-cursor-interactive
+            onClick={(e) => {
+              e.preventDefault();
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
+            Hire Me
+          </a>
         </nav>
         
         {/* Mobile Menu Button */}
@@ -97,6 +112,25 @@ const Navbar = () => {
                   {link.title}
                 </motion.a>
               ))}
+              
+              <motion.a
+                href="#contact"
+                className="mt-4 px-8 py-3 bg-gradient-to-r from-primary to-blue-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-primary/20 transition-all"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.1 }}
+                data-cursor-interactive
+              >
+                Hire Me
+              </motion.a>
             </nav>
           </motion.div>
         )}
