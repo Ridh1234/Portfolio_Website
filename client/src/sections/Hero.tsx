@@ -1,87 +1,105 @@
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { gsap } from "gsap";
-import * as THREE from "three";
 import Typewriter from "typewriter-effect";
-import { FaDownload, FaLinkedin, FaGithub, FaCode } from "react-icons/fa";
-import { SiLeetcode, SiCodechef } from "react-icons/si";
+import * as THREE from "three";
+import { FaDownload } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaCode } from "react-icons/fa";
+import { SiLeetcode } from "react-icons/si";
+
+// Define social links
+const socialLinks = [
+  { name: "LinkedIn", url: "https://linkedin.com/in/hridyansh-sharma", icon: FaLinkedin, color: "#0A66C2" },
+  { name: "GitHub", url: "https://github.com/hridyansh-sharma", icon: FaGithub, color: "#F0F6FC" },
+  { name: "CodeChef", url: "https://codechef.com/users/hridyansh-sharma", icon: FaCode, color: "#5B4638" },
+  { name: "LeetCode", url: "https://leetcode.com/hridyansh-sharma", icon: SiLeetcode, color: "#FFA116" },
+];
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const model3DRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
-
-  const socialLinks = [
-    { name: "LinkedIn", icon: FaLinkedin, url: "https://www.linkedin.com/in/hridyansh", color: "#0077B5" },
-    { name: "GitHub", icon: FaGithub, url: "https://github.com/ridh1234", color: "#333" },
-    { name: "CodeChef", icon: SiCodechef, url: "https://www.codechef.com/users/hridyansh", color: "#5B4638" },
-    { name: "LeetCode", icon: SiLeetcode, url: "https://leetcode.com/hridyansh", color: "#FFA116" },
-  ];
-
+  const model3DRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    // Create animated background
-    if (backgroundRef.current) {
-      const container = backgroundRef.current;
-      
-      // Create animated background dots
+    // Set up the particles background
+    const backgroundContainer = backgroundRef.current;
+    if (backgroundContainer) {
+      // Number of particles
       const particleCount = 100;
+      
+      // Create particles
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
-        particle.className = 'absolute rounded-full';
+        particle.className = 'absolute rounded-full bg-primary/20';
         
-        // Random size between 2-6px
-        const size = Math.random() * 4 + 2;
+        // Random size between 2-8px
+        const size = Math.random() * 6 + 2;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         
-        // Position randomly with more concentration at the center
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
         
-        // Different opacities for depth effect
-        const opacity = Math.random() * 0.5 + 0.1;
+        // Add blur effect
+        particle.style.filter = `blur(${Math.random() * 2}px)`;
         
-        // Color scheme - mostly blue with a few accent colors
-        const colors = [
-          'rgba(30, 144, 255, opacity)', // Dodger Blue
-          'rgba(65, 105, 225, opacity)', // Royal Blue
-          'rgba(0, 123, 255, opacity)',  // Primary Blue
-          'rgba(25, 25, 112, opacity)',  // Midnight Blue
-          'rgba(100, 149, 237, opacity)'  // Cornflower Blue
-        ];
+        // Random opacity
+        particle.style.opacity = `${0.1 + Math.random() * 0.5}`;
         
-        const colorIndex = Math.floor(Math.random() * colors.length);
-        particle.style.backgroundColor = colors[colorIndex].replace('opacity', opacity.toString());
+        // Add animation with random delay
+        particle.style.animation = `floating ${5 + Math.random() * 10}s ease-in-out infinite`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
         
-        // Animation duration
-        const duration = Math.random() * 20 + 20;
-        particle.style.animation = `floating ${duration}s infinite linear`;
-        
-        // Apply a random delay to create an organic feel
-        particle.style.animationDelay = `-${Math.random() * 20}s`;
-        
-        container.appendChild(particle);
+        backgroundContainer.appendChild(particle);
       }
     }
     
-    // Initialize 3D scene
-    if (model3DRef.current) {
-      const container = model3DRef.current;
-      
-      // Create scene
+    // Set up Three.js 3D model
+    const container = model3DRef.current;
+    if (container) {
+      // Scene setup
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       
+      // Camera setup
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(5, 0, 0);
+      camera.lookAt(0, -1.5, -2);
+      
+      // Renderer setup
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
+      // Lighting setup
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+      
+      const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+      mainLight.position.set(5, 5, 5);
+      scene.add(mainLight);
+      
+      const fillLight = new THREE.DirectionalLight(0x3b82f6, 0.5);
+      fillLight.position.set(-5, 0, 2);
+      scene.add(fillLight);
+      
+      const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
+      backLight.position.set(0, 0, -5);
+      scene.add(backLight);
+      
       // Create a realistic developer room
       // Create textures loader
       const textureLoader = new THREE.TextureLoader();
+      
+      // Create room structure
+      const roomGroup = new THREE.Group();
+      scene.add(roomGroup);
       
       // Wall texture
       const createWallMaterial = () => {
@@ -92,16 +110,8 @@ const Hero = () => {
           metalness: 0.1,
         });
         
-        // Add subtle wall pattern
-        const wallBumpMapIntensity = 0.02;
-        wallMaterial.bumpScale = wallBumpMapIntensity;
-        
         return wallMaterial;
       };
-      
-      // Create room structure
-      const roomGroup = new THREE.Group();
-      scene.add(roomGroup);
       
       // Left wall
       const leftWallGeometry = new THREE.BoxGeometry(0.2, 8, 10);
@@ -133,27 +143,47 @@ const Hero = () => {
         transparent: true,
         opacity: 0.3,
         transmission: 0.9,
-        roughness: 0,
-        metalness: 0.1,
-        clearcoat: 1,
-        clearcoatRoughness: 0
+        roughness: 0
       });
       const windowGlass = new THREE.Mesh(windowGlassGeometry, windowGlassMaterial);
       windowGlass.position.set(2, 1, -9.7);
       roomGroup.add(windowGlass);
       
-      // Floor with wooden texture
-      const floorGeometry = new THREE.BoxGeometry(10, 0.2, 10);
-      const floorMaterial = new THREE.MeshStandardMaterial({
-        color: 0x362F2D,
-        roughness: 0.8,
-        metalness: 0.2
+      // Add outer night sky
+      const skyGeometry = new THREE.PlaneGeometry(2.5, 3.5);
+      const skyMaterial = new THREE.MeshBasicMaterial({
+        color: 0x0a0e17
       });
+      const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+      sky.position.set(2, 1, -9.95);
+      roomGroup.add(sky);
+      
+      // Add stars in the night sky window
+      const starsGroup = new THREE.Group();
+      for (let i = 0; i < 50; i++) {
+        const starGeometry = new THREE.SphereGeometry(0.01 + Math.random() * 0.03, 8, 8);
+        const starMaterial = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: Math.random() * 0.8 + 0.2
+        });
+        const star = new THREE.Mesh(starGeometry, starMaterial);
+        star.position.set(
+          (Math.random() - 0.5) * 2.3,
+          (Math.random() - 0.5) * 3.3,
+          0
+        );
+        starsGroup.add(star);
+      }
+      starsGroup.position.set(2, 1, -9.93);
+      roomGroup.add(starsGroup);
+      
+      // Floor with wooden texture
+      const floorGroup = new THREE.Group();
       
       // Floor wooden planks pattern
       const floorSegments = 20;
       const plankWidth = 10 / floorSegments;
-      const floorGroup = new THREE.Group();
       
       for (let i = 0; i < floorSegments; i++) {
         const plankGeometry = new THREE.BoxGeometry(plankWidth * 0.95, 0.1, 10);
@@ -171,6 +201,18 @@ const Hero = () => {
       
       floorGroup.position.set(0, 0, -5);
       roomGroup.add(floorGroup);
+      
+      // Add a rug
+      const rugGeometry = new THREE.PlaneGeometry(5, 4);
+      const rugMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1e3a8a,
+        roughness: 0.9,
+        metalness: 0
+      });
+      const rug = new THREE.Mesh(rugGeometry, rugMaterial);
+      rug.rotation.x = -Math.PI / 2;
+      rug.position.set(0, -3.94, -3);
+      roomGroup.add(rug);
       
       // Desk - more detailed with drawers
       const deskGroup = new THREE.Group();
@@ -233,6 +275,12 @@ const Hero = () => {
         rightDeskSide.add(drawer.clone());
       }
       
+      // Add back panel to desk
+      const deskBackGeometry = new THREE.BoxGeometry(4, 1.8, 0.05);
+      const deskBack = new THREE.Mesh(deskBackGeometry, deskSideMaterial);
+      deskBack.position.set(0, -2.9, -0.975);
+      deskGroup.add(deskBack);
+      
       // Position desk in the room
       deskGroup.position.set(0, 0, -3);
       roomGroup.add(deskGroup);
@@ -272,127 +320,124 @@ const Hero = () => {
       computerGroup.add(screen);
       
       // Code editor interface
-      const createCodeBlock = () => {
-        const codeGroup = new THREE.Group();
-        
-        // Editor background
-        const editorBgGeometry = new THREE.PlaneGeometry(2.1, 1.2);
-        const editorBgMaterial = new THREE.MeshBasicMaterial({
-          color: 0x0C1021,
-        });
-        const editorBg = new THREE.Mesh(editorBgGeometry, editorBgMaterial);
-        editorBg.position.set(0, 0, 0.001);
-        codeGroup.add(editorBg);
-        
-        // Line numbers background
-        const lineNumbersBgGeometry = new THREE.PlaneGeometry(0.2, 1.2);
-        const lineNumbersBgMaterial = new THREE.MeshBasicMaterial({
-          color: 0x0A0E1A,
-        });
-        const lineNumbersBg = new THREE.Mesh(lineNumbersBgGeometry, lineNumbersBgMaterial);
-        lineNumbersBg.position.set(-0.95, 0, 0.002);
-        codeGroup.add(lineNumbersBg);
-        
-        // Code lines
-        const colors = {
-          keyword: 0xFF7B29,  // orange
-          string: 0x61CE3C,   // green
-          comment: 0x676B79,  // gray
-          variable: 0x8DDAF8, // light blue
-          function: 0x8B7EF0,  // purple
-          normal: 0xF8F8F8     // white
-        };
-        
-        // Create line of code
-        const createLine = (y: number, content: string, color: number) => {
-          const lineGeometry = new THREE.PlaneGeometry(content.length * 0.05, 0.05);
-          const lineMaterial = new THREE.MeshBasicMaterial({
-            color,
-            transparent: true,
-            opacity: 0.9
-          });
-          
-          const line = new THREE.Mesh(lineGeometry, lineMaterial);
-          line.position.set(-0.8 + content.length * 0.025, y, 0.003);
-          return line;
-        };
-        
-        // Create line number
-        const createLineNumber = (y: number, number: number) => {
-          const numGeometry = new THREE.PlaneGeometry(0.1, 0.05);
-          const numMaterial = new THREE.MeshBasicMaterial({
-            color: 0x3E4451,
-            transparent: true,
-            opacity: 0.9
-          });
-          
-          const numMesh = new THREE.Mesh(numGeometry, numMaterial);
-          numMesh.position.set(-0.95, y, 0.003);
-          return numMesh;
-        };
-        
-        // Add some code lines and numbers
-        const linesCount = 15;
-        const lineHeight = 0.07;
-        
-        for (let i = 0; i < linesCount; i++) {
-          const y = 0.5 - i * lineHeight;
-          
-          // Line numbers
-          codeGroup.add(createLineNumber(y, i + 1));
-          
-          // Code content with syntax highlighting
-          let color = colors.normal;
-          let length = 0.5 + Math.random() * 1.5; // Random line length
-          
-          // Some syntax highlighting patterns
-          if (i === 0 || i === 5) {
-            color = colors.keyword; // import/function keyword
-            length = 1.5;
-          } else if (i === 1 || i === 8) {
-            color = colors.string; // strings
-            length = 1.8;
-          } else if (i === 3) {
-            color = colors.comment; // comment
-            length = 2;
-          } else if (i === 6 || i === 9) {
-            color = colors.function; // function name
-            length = 1.2;
-          } else if (i === 7 || i === 10) {
-            color = colors.variable; // variable
-            length = 0.9;
-          }
-          
-          const line = createLine(y, "x".repeat(Math.floor(length * 10)), color);
-          codeGroup.add(line);
-        }
-        
-        // Cursor
-        const cursorGeometry = new THREE.PlaneGeometry(0.01, 0.07);
-        const cursorMaterial = new THREE.MeshBasicMaterial({
-          color: 0xF8F8F8,
-          transparent: true,
-          opacity: 0.8
-        });
-        const cursor = new THREE.Mesh(cursorGeometry, cursorMaterial);
-        cursor.position.set(-0.3, 0.08, 0.004);
-        codeGroup.add(cursor);
-        
-        // Animate cursor blinking
-        const animateCursor = () => {
-          cursorMaterial.opacity = 0.8;
-          setInterval(() => {
-            cursorMaterial.opacity = cursorMaterial.opacity > 0 ? 0 : 0.8;
-          }, 500);
-        };
-        
-        animateCursor();
-        
-        return codeGroup;
+      const codeGroup = new THREE.Group();
+      
+      // Editor background
+      const editorBgGeometry = new THREE.PlaneGeometry(2.1, 1.2);
+      const editorBgMaterial = new THREE.MeshBasicMaterial({
+        color: 0x0C1021,
+      });
+      const editorBg = new THREE.Mesh(editorBgGeometry, editorBgMaterial);
+      editorBg.position.set(0, 0, 0.001);
+      codeGroup.add(editorBg);
+      
+      // Line numbers background
+      const lineNumbersBgGeometry = new THREE.PlaneGeometry(0.2, 1.2);
+      const lineNumbersBgMaterial = new THREE.MeshBasicMaterial({
+        color: 0x0A0E1A,
+      });
+      const lineNumbersBg = new THREE.Mesh(lineNumbersBgGeometry, lineNumbersBgMaterial);
+      lineNumbersBg.position.set(-0.95, 0, 0.002);
+      codeGroup.add(lineNumbersBg);
+      
+      // Code lines
+      const colors = {
+        keyword: 0xFF7B29,  // orange
+        string: 0x61CE3C,   // green
+        comment: 0x676B79,  // gray
+        variable: 0x8DDAF8, // light blue
+        function: 0x8B7EF0,  // purple
+        normal: 0xF8F8F8     // white
       };
       
-      const codeEditor = createCodeBlock();
-      screen.add(codeEditor);
+      // Create line of code
+      const createLine = (y: number, content: string, color: number) => {
+        const lineGeometry = new THREE.PlaneGeometry(content.length * 0.05, 0.05);
+        const lineMaterial = new THREE.MeshBasicMaterial({
+          color,
+          transparent: true,
+          opacity: 0.9
+        });
+        
+        const line = new THREE.Mesh(lineGeometry, lineMaterial);
+        line.position.set(-0.8 + content.length * 0.025, y, 0.003);
+        return line;
+      };
+      
+      // Create line number
+      const createLineNumber = (y: number, number: number) => {
+        const numGeometry = new THREE.PlaneGeometry(0.1, 0.05);
+        const numMaterial = new THREE.MeshBasicMaterial({
+          color: 0x3E4451,
+          transparent: true,
+          opacity: 0.9
+        });
+        
+        const numMesh = new THREE.Mesh(numGeometry, numMaterial);
+        numMesh.position.set(-0.95, y, 0.003);
+        return numMesh;
+      };
+      
+      // Add some code lines and numbers
+      const linesCount = 15;
+      const lineHeight = 0.07;
+      
+      // For animation
+      const animatedCodeLines: THREE.Mesh[] = [];
+      
+      for (let i = 0; i < linesCount; i++) {
+        const y = 0.5 - i * lineHeight;
+        
+        // Line numbers
+        codeGroup.add(createLineNumber(y, i + 1));
+        
+        // Code content with syntax highlighting
+        let color = colors.normal;
+        let length = 0.5 + Math.random() * 1.5; // Random line length
+        
+        // Some syntax highlighting patterns
+        if (i === 0 || i === 5) {
+          color = colors.keyword; // import/function keyword
+          length = 1.5;
+        } else if (i === 1 || i === 8) {
+          color = colors.string; // strings
+          length = 1.8;
+        } else if (i === 3) {
+          color = colors.comment; // comment
+          length = 2;
+        } else if (i === 6 || i === 9) {
+          color = colors.function; // function name
+          length = 1.2;
+        } else if (i === 7 || i === 10) {
+          color = colors.variable; // variable
+          length = 0.9;
+        }
+        
+        const line = createLine(y, "x".repeat(Math.floor(length * 10)), color);
+        codeGroup.add(line);
+        
+        // Add to animated lines
+        animatedCodeLines.push(line);
+      }
+      
+      // Cursor
+      const cursorGeometry = new THREE.PlaneGeometry(0.01, 0.07);
+      const cursorMaterial = new THREE.MeshBasicMaterial({
+        color: 0xF8F8F8,
+        transparent: true,
+        opacity: 0.8
+      });
+      const cursor = new THREE.Mesh(cursorGeometry, cursorMaterial);
+      cursor.position.set(-0.3, 0.08, 0.004);
+      codeGroup.add(cursor);
+      
+      // Animate cursor blinking
+      setInterval(() => {
+        cursorMaterial.opacity = cursorMaterial.opacity > 0 ? 0 : 0.8;
+      }, 500);
+      
+      // Add code editor to screen
+      screen.add(codeGroup);
       
       // Keyboard with detailed keys
       const keyboardGroup = new THREE.Group();
@@ -665,6 +710,25 @@ const Hero = () => {
       coffee.position.set(0, 0.095, 0);
       mugGroup.add(coffee);
       
+      // Add little coffee steam
+      const steamGroup = new THREE.Group();
+      for (let i = 0; i < 5; i++) {
+        const steamParticleGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+        const steamMaterial = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.4
+        });
+        const steamParticle = new THREE.Mesh(steamParticleGeometry, steamMaterial);
+        steamParticle.position.set(
+          (Math.random() - 0.5) * 0.05,
+          0.12 + i * 0.04,
+          (Math.random() - 0.5) * 0.05
+        );
+        steamGroup.add(steamParticle);
+      }
+      mugGroup.add(steamGroup);
+      
       // Position mug on desk
       mugGroup.position.set(1.5, -1.9, -3.3);
       roomGroup.add(mugGroup);
@@ -719,50 +783,49 @@ const Hero = () => {
       lampGroup.rotation.y = Math.PI * 0.1;
       roomGroup.add(lampGroup);
 
-      // Add lights
-      const light1 = new THREE.DirectionalLight(0xFFFFFF, 1);
-      light1.position.set(1, 1, 1);
-      scene.add(light1);
-
-      const light2 = new THREE.DirectionalLight(0x4169E1, 0.5);
-      light2.position.set(-1, -1, -1);
-      scene.add(light2);
-
-      const light3 = new THREE.AmbientLight(0x191970, 0.5); // Midnight Blue
-      scene.add(light3);
+      // Books and notebooks
+      const booksGroup = new THREE.Group();
       
-      // Spot light above desk
-      const spotLight = new THREE.SpotLight(0xFFFFFF, 1);
-      spotLight.position.set(0, 2, -2);
-      spotLight.target.position.set(0, -1.9, -3);
-      spotLight.angle = Math.PI / 6;
-      spotLight.penumbra = 0.2;
-      scene.add(spotLight);
-      scene.add(spotLight.target);
-
-      // Position camera
-      camera.position.set(5, 0, 2);
-      camera.lookAt(0, -1.5, -2);
-
-      // Mouse interaction
-      let mouseX = 0;
-      let mouseY = 0;
+      // Create a few books of different sizes and colors
+      const bookColors = [0x3178C6, 0xF0DB4F, 0x306998, 0x00599C, 0x61DAFB, 0x3A506B];
+      
+      for (let i = 0; i < 4; i++) {
+        const width = 0.3 + Math.random() * 0.2;
+        const height = 0.04 + Math.random() * 0.02;
+        const depth = 0.2 + Math.random() * 0.1;
+        
+        const bookGeometry = new THREE.BoxGeometry(width, height, depth);
+        const bookMaterial = new THREE.MeshStandardMaterial({
+          color: bookColors[i % bookColors.length],
+          roughness: 0.9,
+          metalness: 0.1
+        });
+        
+        const book = new THREE.Mesh(bookGeometry, bookMaterial);
+        book.position.set(-1.6, -1.9 + (i * height), -2.8);
+        book.rotation.y = (Math.random() - 0.5) * 0.2; // Slight random rotation
+        booksGroup.add(book);
+      }
+      
+      roomGroup.add(booksGroup);
+      
+      // Interactive animation
       let targetX = 0;
       let targetY = 0;
-      const windowX = window.innerWidth / 2;
-      const windowY = window.innerHeight / 2;
-
+      let mouseX = 0;
+      let mouseY = 0;
+      
       const onMouseMove = (event: MouseEvent) => {
-        mouseX = (event.clientX - windowX) / 100;
-        mouseY = (event.clientY - windowY) / 100;
+        mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
       };
-
+      
       window.addEventListener('mousemove', onMouseMove);
-
+      
       // Animation loop
       const animate = () => {
         requestAnimationFrame(animate);
-
+        
         targetX = mouseX * 0.1;
         targetY = mouseY * 0.1;
         
@@ -772,6 +835,34 @@ const Hero = () => {
         // Animate programmer with subtle floating motion
         if (personGroup) {
           personGroup.position.y = Math.sin(time * 0.5) * 0.05;
+        }
+        
+        // Animate code lines
+        if (animatedCodeLines && animatedCodeLines.length > 0) {
+          animatedCodeLines.forEach((line, idx) => {
+            const material = line.material as THREE.MeshBasicMaterial;
+            if (material && material.opacity !== undefined) {
+              const blinkRate = 0.5 + Math.random() * 0.5;
+              material.opacity = 0.5 + 0.5 * Math.sin(time * blinkRate + idx);
+            }
+          });
+        }
+        
+        // Animate coffee steam
+        if (steamGroup) {
+          steamGroup.children.forEach((particle, idx) => {
+            particle.position.y += 0.0005 * Math.sin(time * 2 + idx);
+            const material = particle.material as THREE.MeshBasicMaterial;
+            material.opacity = 0.2 + 0.2 * Math.sin(time * 2 + idx);
+          });
+        }
+        
+        // Animate stars twinkling
+        if (starsGroup) {
+          starsGroup.children.forEach((star, idx) => {
+            const material = star.material as THREE.MeshBasicMaterial;
+            material.opacity = 0.2 + 0.8 * Math.abs(Math.sin(time * (0.2 + idx * 0.05)));
+          });
         }
         
         // Smooth camera movement following mouse

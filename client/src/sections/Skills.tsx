@@ -122,43 +122,38 @@ const Skills = () => {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
             >
-              <h3 className="text-xl font-semibold mb-4 text-primary border-b border-border pb-2">
-                {category.name}
-              </h3>
+              <div className="border-b border-border pb-4 mb-5">
+                <h3 className="text-xl font-semibold text-primary">{category.name}</h3>
+              </div>
               
-              <div className="grid grid-cols-2 gap-6">
-                {/* Framework Categories (Left Side) */}
-                <div className="space-y-4">
-                  {category.skills.map(skill => (
-                    <motion.div 
-                      key={skill.id}
-                      className="flex items-center gap-3"
-                      variants={itemVariants}
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      transition={{ delay: 0.1 * categoryIndex }}
-                    >
-                      <skill.icon style={{ color: skill.color }} className="text-xl" />
-                      <span className="text-text-primary">{skill.name}</span>
-                    </motion.div>
-                  ))}
+              <div className="flex flex-col space-y-5">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium text-text-primary">Tech Stack</span>
+                  <div className="flex space-x-4">
+                    {category.skills.map(skill => (
+                      <motion.div 
+                        key={skill.id}
+                        className="flex items-center"
+                        style={{ color: skill.color }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                        transition={{ duration: 0.3, delay: 0.1 * categoryIndex + 0.1 }}
+                        whileHover={{ scale: 1.2 }}
+                      >
+                        <skill.icon className="text-2xl" />
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
                 
-                {/* Skill Icons (Right Side) */}
-                <div className="flex flex-wrap justify-end items-center gap-4">
-                  {category.skills.map(skill => (
-                    <motion.div 
-                      key={`icon-${skill.id}`}
-                      className="p-3 rounded-full flex items-center justify-center bg-background hover:bg-background-alt transition-colors duration-300 border border-border/50"
-                      style={{ color: skill.color }}
-                      whileHover={{ scale: 1.1, boxShadow: `0 0 15px ${skill.color}30` }}
-                      variants={itemVariants}
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      transition={{ delay: 0.2 * categoryIndex }}
+                <div className="flex flex-wrap items-center">
+                  {category.skills.map((skill, idx) => (
+                    <span 
+                      key={skill.id} 
+                      className="text-text-secondary font-mono text-sm"
                     >
-                      <skill.icon className="text-2xl" />
-                    </motion.div>
+                      {skill.name}{idx < category.skills.length - 1 ? ", " : ""}
+                    </span>
                   ))}
                 </div>
               </div>
