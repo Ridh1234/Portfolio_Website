@@ -1,62 +1,96 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import Counter from "@/components/Counter";
 
-const achievements = [
+// Add proper typing to the Counter component
+interface CounterProps {
+  value: number;
+}
+
+const Counter: React.FC<CounterProps> = ({ value }) => {
+  return <span>{value}</span>;
+};
+
+const coursework: string[] = [
+  "Data Structures",
+  "Software Engineering",
+  "Algorithms Analysis",
+  "Database Management",
+  "System Software",
+  "Computer Architecture",
+  "Object-Oriented Programming",
+  "Computer Programming",
+  "Machine Learning",
+  "Computer Networks",
+  "Artificial Intelligence",
+  "Operating Systems"
+];
+
+interface Achievement {
+  icon: string;
+  metric: string;
+  title: string;
+  description: string;
+}
+
+const achievements: Achievement[] = [
   {
     icon: "fas fa-trophy",
-    value: 15,
-    title: "Awards Won",
-    description: "Recognized for excellence in hackathons and coding competitions."
+    metric: "Top 4.22%",
+    title: "LeetCode Global Ranking",
+    description: "Rating: 1911 with 300+ problems solved"
   },
   {
-    icon: "fas fa-project-diagram",
-    value: 50,
-    title: "Projects Completed",
-    description: "Successfully delivered projects across different domains."
+    icon: "fas fa-star",
+    metric: "3-Star",
+    title: "CodeChef Rating",
+    description: "Rating: 1795, consistently solving complex algorithmic problems"
   },
   {
-    icon: "fas fa-users",
-    value: 120000,
-    title: "Users Impacted",
-    description: "Created solutions that improved user experiences."
+    icon: "fas fa-code",
+    metric: "Round 2",
+    title: "TCS CodeVita",
+    description: "Competed against 200,000+ developers globally"
   },
   {
-    icon: "fas fa-lightbulb",
-    value: 3,
-    title: "Research Publications",
-    description: "Published papers on AI and machine learning applications."
+    icon: "fas fa-laptop-code",
+    metric: "Finalist",
+    title: "CODE-Voyage",
+    description: "Secured second round in IIIT coding contest on HackerRank"
   }
 ];
 
-const certifications = [
+interface Certification {
+  title: string;
+  organization: string;
+  description: string;
+  year: number;
+}
+
+const certifications: Certification[] = [
   {
-    title: "AWS Certified Solutions Architect",
-    organization: "Amazon Web Services",
-    year: 2024
-  },
-  {
-    title: "TensorFlow Developer Certificate",
-    organization: "Google",
+    title: "Google Cloud Digital Leader",
+    organization: "Google Cloud",
+    description: "Completed extensive training in cloud architecture and deployment",
     year: 2023
   },
   {
-    title: "Full Stack Web Development",
-    organization: "Meta",
-    year: 2023
-  },
-  {
-    title: "Machine Learning Specialization",
-    organization: "Stanford University",
+    title: "Advanced C++ Programming and Data Structures",
+    organization: "Udemy",
+    description: "Mastered advanced programming concepts and implementations",
     year: 2022
   }
 ];
 
-const Achievements = () => {
+const Achievements: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
   
-  const containerVariants = {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+  
+  const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -65,143 +99,149 @@ const Achievements = () => {
       }
     }
   };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  };
 
   return (
-    <section className="py-20 px-6 bg-background-alt" id="achievements" ref={sectionRef}>
+    <section className="py-20 px-6 bg-background" id="achievements" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <motion.h2 
-            className="text-4xl font-bold mb-4 font-heading inline-block"
-            initial={{ opacity: 0, y: -20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary">Achievements</span> & Certifications
-          </motion.h2>
-          <motion.div 
-            className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto"
-            initial={{ opacity: 0, width: 0 }}
-            animate={isInView ? { opacity: 1, width: 80 } : { opacity: 0, width: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          ></motion.div>
-          <motion.p 
-            className="text-text-secondary mt-6 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            Recognition and professional development milestones that reflect my commitment to excellence.
-          </motion.p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-          {achievements.map((item, index) => (
-            <motion.div 
-              key={index}
-              className="bg-background p-6 rounded-lg border border-border shadow-lg hover:shadow-primary/10 text-center transform hover:-translate-y-1 transition-all"
-              variants={itemVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              transition={{ delay: 0.1 * index }}
-              data-cursor-interactive
-            >
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className={`${item.icon} text-white text-2xl`}></i>
-              </div>
-              <h3 className="text-3xl font-bold mb-2 text-text-primary">
-                <Counter value={item.value} />
-              </h3>
-              <h4 className="text-lg font-semibold mb-2 text-secondary">{item.title}</h4>
-              <p className="text-text-secondary text-sm">{item.description}</p>
-            </motion.div>
-          ))}
-        </div>
-        
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          variants={containerVariants}
+          className="text-center mb-16"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl font-bold mb-4 font-heading">
+            <span className="text-primary">Technical</span> Achievements
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto"></div>
+          <p className="text-text-secondary mt-6 max-w-2xl mx-auto">
+            A showcase of my technical proficiency and professional development milestones
+          </p>
+        </motion.div>
+        
+        {/* Competitive Programming Stats */}
+        <motion.div 
+          variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
+          className="mb-20"
         >
-          <div>
+          <motion.h3 
+            variants={fadeIn}
+            className="text-2xl font-bold mb-8 text-center font-heading text-primary"
+          >
+            Competitive Programming
+          </motion.h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {achievements.map((item, index) => (
+              <motion.div 
+                key={index}
+                variants={fadeIn}
+                transition={{ delay: 0.1 * index }}
+                className="bg-background-alt rounded-lg border border-border shadow-md hover:shadow-lg hover:shadow-primary/10 transform hover:-translate-y-1 transition-all duration-300"
+                data-cursor-interactive
+              >
+                <div className="bg-gradient-to-r from-primary to-secondary h-2 rounded-t-lg"></div>
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-background rounded-lg flex items-center justify-center text-primary mr-4 border border-border">
+                      <i className={`${item.icon} text-xl`}></i>
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-text-primary">{item.metric}</h4>
+                      <p className="text-secondary text-sm font-medium">{item.title}</p>
+                    </div>
+                  </div>
+                  <p className="text-text-secondary text-sm">{item.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+        
+        {/* Two Column Layout for Certifications and Coursework */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Certifications */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             <motion.h3 
+              variants={fadeIn}
               className="text-2xl font-bold mb-6 font-heading text-primary"
-              variants={itemVariants}
             >
-              Professional Certifications
+              Professional Development
             </motion.h3>
-            <motion.div 
-              className="space-y-5"
-              variants={containerVariants}
-            >
+            
+            <div className="space-y-6">
               {certifications.map((cert, index) => (
                 <motion.div 
                   key={index}
-                  className="bg-background p-5 rounded-lg border border-border flex items-center hover:shadow-lg hover:shadow-primary/10 transition-all transform hover:-translate-y-1"
-                  variants={itemVariants}
+                  variants={fadeIn}
+                  className="bg-background-alt p-6 rounded-lg shadow-md border border-border hover:shadow-lg hover:shadow-primary/10 transition-all"
                   data-cursor-interactive
                 >
-                  <div className="mr-4 hidden sm:block">
-                    <div className="w-12 h-12 bg-background-alt rounded-full flex items-center justify-center">
-                      <span className="text-secondary font-bold">{cert.year}</span>
+                  <div className="flex items-start">
+                    <div className="min-w-[60px] h-16 flex flex-col items-center justify-center mr-4">
+                      <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center border border-border">
+                        <span className="text-secondary font-bold">{cert.year}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
-                    <p className="text-text-secondary">
-                      <span className="text-secondary">{cert.organization}</span>
-                      <span className="text-xs ml-2 md:hidden">{cert.year}</span>
-                    </p>
+                    <div>
+                      <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
+                      <p className="text-secondary font-medium text-sm">{cert.organization}</p>
+                      <p className="mt-2 text-text-secondary text-sm">{cert.description}</p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
           
-          <div>
+          {/* Coursework - Using Tags/Pills */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             <motion.h3 
+              variants={fadeIn}
               className="text-2xl font-bold mb-6 font-heading text-primary"
-              variants={itemVariants}
             >
-              Education & Training
+              Relevant Coursework
             </motion.h3>
+            
             <motion.div 
-              className="bg-background p-6 rounded-lg border border-border h-full"
-              variants={itemVariants}
+              variants={fadeIn}
+              className="bg-background-alt p-6 rounded-lg shadow-md border border-border"
             >
-              <div className="timeline-container mb-0 h-full">
-                <div className="timeline-dot mt-0"></div>
-                <div className="pb-8">
-                  <h4 className="text-lg font-semibold text-text-primary">B.Tech in Computer Science</h4>
-                  <p className="text-secondary">IIIT Vadodara</p>
-                  <p className="text-text-secondary text-sm">2022 - Present</p>
-                  <p className="mt-2 text-text-secondary">Focusing on AI/ML, web technologies, and system architecture.</p>
-                </div>
-                
-                <div className="timeline-dot"></div>
-                <div className="pb-8">
-                  <h4 className="text-lg font-semibold text-text-primary">Deep Learning Specialization</h4>
-                  <p className="text-secondary">Coursera (Andrew Ng)</p>
-                  <p className="text-text-secondary text-sm">2023</p>
-                  <p className="mt-2 text-text-secondary">Mastered neural networks, optimization algorithms, and computer vision applications.</p>
-                </div>
-                
-                <div className="timeline-dot"></div>
-                <div>
-                  <h4 className="text-lg font-semibold text-text-primary">Full Stack Development Bootcamp</h4>
-                  <p className="text-secondary">Udemy</p>
-                  <p className="text-text-secondary text-sm">2022</p>
-                  <p className="mt-2 text-text-secondary">Learned modern web development stack including React, Node.js, and MongoDB.</p>
-                </div>
+              <div className="flex flex-wrap gap-3">
+                {coursework.map((course, index) => (
+                  <motion.span 
+                    key={index}
+                    variants={fadeIn}
+                    transition={{ delay: 0.03 * index }}
+                    className="px-4 py-2 bg-background text-primary rounded-full text-sm font-medium border border-primary/30 hover:border-primary hover:bg-primary/5 transition-all cursor-default"
+                  >
+                    {course}
+                  </motion.span>
+                ))}
               </div>
+              
+              <motion.div 
+                variants={fadeIn}
+                transition={{ delay: 0.5 }}
+                className="mt-8 p-4 bg-background rounded-lg border border-border"
+              >
+                <h4 className="font-semibold text-text-primary mb-2">Educational Focus</h4>
+                <p className="text-text-secondary text-sm">
+                  Comprehensive curriculum covering core computer science principles, software development methodologies, and advanced topics in artificial intelligence and machine learning.
+                </p>
+              </motion.div>
             </motion.div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

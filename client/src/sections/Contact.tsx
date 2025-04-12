@@ -234,9 +234,8 @@ const Contact = () => {
               <h4 className="w-full text-center text-text-secondary mb-6 uppercase tracking-wider text-sm">Find me on</h4>
               <div className="flex space-x-6">
                 {[
-                  { Icon: FaGithub, link: "https://github.com", label: "GitHub" },
-                  { Icon: FaLinkedin, link: "https://linkedin.com", label: "LinkedIn" },
-                  { Icon: FaTwitter, link: "https://twitter.com", label: "Twitter" },
+                  { Icon: FaGithub, link: "https://github.com/Ridh1234", label: "GitHub" },
+                  { Icon: FaLinkedin, link: "https://www.linkedin.com/in/hridyansh-sharma/", label: "LinkedIn" },
                 ].map((social, index) => (
                   <motion.a 
                     key={index}
@@ -257,22 +256,6 @@ const Contact = () => {
           </div>
         </motion.div>
         
-        {/* Email me directly button */}
-        <motion.div 
-          className="mt-12 text-center"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.8 }}
-        >
-          <a 
-            href="mailto:sharmahridyansh3@gmail.com"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-blue-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all group"
-            data-cursor-interactive
-          >
-            <FaEnvelope className="mr-3 group-hover:scale-110 transition-transform" />
-            Email Me Directly
-          </a>
-        </motion.div>
       </div>
     </section>
   );

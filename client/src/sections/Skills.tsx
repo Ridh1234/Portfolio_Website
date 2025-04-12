@@ -67,7 +67,6 @@ const Skills = () => {
       skills: [
         { id: "nodejs", name: "Node.js", icon: FaNodeJs, color: "#68A063" },
         { id: "express", name: "Express.js", icon: SiExpress, color: "#000000" },
-        { id: "django", name: "Django", icon: SiDjango, color: "#092E20" },
         { id: "mongodb", name: "MongoDB", icon: SiMongodb, color: "#47A248" },
         { id: "sql", name: "SQL", icon: FaDatabase, color: "#4479A1" },
       ]
@@ -99,9 +98,6 @@ const Skills = () => {
         { id: "git", name: "Git", icon: FaGitAlt, color: "#F05032" },
         { id: "docker", name: "Docker", icon: FaDocker, color: "#2496ED" },
         { id: "aws", name: "AWS", icon: FaAws, color: "#FF9900" },
-        { id: "figma", name: "Figma", icon: SiFigma, color: "#F24E1E" },
-        { id: "linux", name: "Linux", icon: FaLinux, color: "#FCC624" },
-        { id: "jenkins", name: "Jenkins", icon: SiJenkins, color: "#D24939" },
       ]
     }
   ];

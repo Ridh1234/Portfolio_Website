@@ -9,7 +9,6 @@ import Skills from "@/sections/Skills";
 import Projects from "@/sections/Projects";
 import Achievements from "@/sections/Achievements";
 import Contact from "@/sections/Contact";
-import Footer from "@/components/Footer";
 
 // Import necessary libraries
 import { gsap } from "gsap";
@@ -104,7 +103,6 @@ const Home = () => {
         <Projects />
         <Achievements />
         <Contact />
-        <Footer />
       </div>
     </div>
   );

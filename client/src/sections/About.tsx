@@ -102,7 +102,7 @@ const About = () => {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              I am a passionate software developer currently pursuing my degree at IIIT Vadodara. My journey in tech is driven by a fascination with creating intelligent, user-friendly solutions that solve real-world problems.
+              I am a passionate software developer currently pursuing my degree at IIIT Vadodara International Campus Diu. My journey in tech is driven by a fascination with creating intelligent, user-friendly solutions that solve real-world problems.
             </motion.p>
             
             <motion.div 
