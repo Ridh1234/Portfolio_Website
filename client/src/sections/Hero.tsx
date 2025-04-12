@@ -79,169 +79,645 @@ const Hero = () => {
       renderer.setClearColor(0x000000, 0);
       container.appendChild(renderer.domElement);
 
-      // Create room with two walls
-      const wallMaterial = new THREE.MeshStandardMaterial({
-        color: 0x1E3A5F,
-        roughness: 0.8,
-        metalness: 0.2,
-      });
+      // Create a realistic developer room
+      // Create textures loader
+      const textureLoader = new THREE.TextureLoader();
+      
+      // Wall texture
+      const createWallMaterial = () => {
+        const wallColor = 0x1A2D44; // Dark blue wall
+        const wallMaterial = new THREE.MeshStandardMaterial({
+          color: wallColor,
+          roughness: 0.9,
+          metalness: 0.1,
+        });
+        
+        // Add subtle wall pattern
+        const wallBumpMapIntensity = 0.02;
+        wallMaterial.bumpScale = wallBumpMapIntensity;
+        
+        return wallMaterial;
+      };
+      
+      // Create room structure
+      const roomGroup = new THREE.Group();
+      scene.add(roomGroup);
       
       // Left wall
-      const leftWallGeometry = new THREE.BoxGeometry(10, 8, 0.2);
-      const leftWall = new THREE.Mesh(leftWallGeometry, wallMaterial);
+      const leftWallGeometry = new THREE.BoxGeometry(0.2, 8, 10);
+      const leftWall = new THREE.Mesh(leftWallGeometry, createWallMaterial());
       leftWall.position.set(-5, 0, -5);
-      leftWall.rotation.y = Math.PI / 2;
-      scene.add(leftWall);
+      roomGroup.add(leftWall);
       
       // Back wall
       const backWallGeometry = new THREE.BoxGeometry(10, 8, 0.2);
-      const backWall = new THREE.Mesh(backWallGeometry, wallMaterial);
-      backWall.position.set(0, 0, -5);
-      scene.add(backWall);
+      const backWall = new THREE.Mesh(backWallGeometry, createWallMaterial());
+      backWall.position.set(0, 0, -10);
+      roomGroup.add(backWall);
       
-      // Floor
+      // Window on back wall
+      const windowFrameGeometry = new THREE.BoxGeometry(3, 4, 0.3);
+      const windowFrameMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3A4B5C,
+        metalness: 0.4,
+        roughness: 0.4
+      });
+      const windowFrame = new THREE.Mesh(windowFrameGeometry, windowFrameMaterial);
+      windowFrame.position.set(2, 1, -9.9);
+      roomGroup.add(windowFrame);
+      
+      // Window glass
+      const windowGlassGeometry = new THREE.PlaneGeometry(2.7, 3.7);
+      const windowGlassMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x88CCFF,
+        transparent: true,
+        opacity: 0.3,
+        transmission: 0.9,
+        roughness: 0,
+        metalness: 0.1,
+        clearcoat: 1,
+        clearcoatRoughness: 0
+      });
+      const windowGlass = new THREE.Mesh(windowGlassGeometry, windowGlassMaterial);
+      windowGlass.position.set(2, 1, -9.7);
+      roomGroup.add(windowGlass);
+      
+      // Floor with wooden texture
       const floorGeometry = new THREE.BoxGeometry(10, 0.2, 10);
       const floorMaterial = new THREE.MeshStandardMaterial({
-        color: 0x0A1929,
-        roughness: 0.9,
+        color: 0x362F2D,
+        roughness: 0.8,
+        metalness: 0.2
       });
-      const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-      floor.position.set(0, -4, 0);
-      scene.add(floor);
       
-      // Desk
-      const deskGeometry = new THREE.BoxGeometry(4, 0.2, 2);
-      const deskMaterial = new THREE.MeshStandardMaterial({
-        color: 0x3A2A1F,
-        roughness: 0.6,
-      });
-      const desk = new THREE.Mesh(deskGeometry, deskMaterial);
-      desk.position.set(0, -2, -3);
-      scene.add(desk);
+      // Floor wooden planks pattern
+      const floorSegments = 20;
+      const plankWidth = 10 / floorSegments;
+      const floorGroup = new THREE.Group();
       
-      // Desk legs
-      const legGeometry = new THREE.BoxGeometry(0.2, 2, 0.2);
-      
-      for (let i = 0; i < 4; i++) {
-        const leg = new THREE.Mesh(legGeometry, deskMaterial);
-        const xPos = (i % 2 === 0) ? -1.8 : 1.8;
-        const zPos = (i < 2) ? -2.1 : -3.9;
-        leg.position.set(xPos, -3, zPos);
-        scene.add(leg);
+      for (let i = 0; i < floorSegments; i++) {
+        const plankGeometry = new THREE.BoxGeometry(plankWidth * 0.95, 0.1, 10);
+        const woodColor = i % 2 === 0 ? 0x362F2D : 0x2A2422;
+        const plankMaterial = new THREE.MeshStandardMaterial({
+          color: woodColor,
+          roughness: 0.8,
+          metalness: 0.1,
+        });
+        
+        const plank = new THREE.Mesh(plankGeometry, plankMaterial);
+        plank.position.set(-5 + plankWidth * i + plankWidth / 2, -4, 0);
+        floorGroup.add(plank);
       }
       
-      // Computer monitor
-      const monitorBaseGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.5);
+      floorGroup.position.set(0, 0, -5);
+      roomGroup.add(floorGroup);
+      
+      // Desk - more detailed with drawers
+      const deskGroup = new THREE.Group();
+      
+      // Main desk surface
+      const deskTopGeometry = new THREE.BoxGeometry(4, 0.1, 2);
+      const deskMaterial = new THREE.MeshStandardMaterial({
+        color: 0x4A3C2E,
+        roughness: 0.7,
+        metalness: 0.1
+      });
+      const deskTop = new THREE.Mesh(deskTopGeometry, deskMaterial);
+      deskTop.position.set(0, -2, 0);
+      deskGroup.add(deskTop);
+      
+      // Desk sides
+      const deskSideGeometry = new THREE.BoxGeometry(0.1, 1.8, 2);
+      const deskSideMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3A2E22,
+        roughness: 0.7,
+        metalness: 0.1
+      });
+      
+      // Left desk side with drawers
+      const leftDeskSide = new THREE.Mesh(deskSideGeometry, deskSideMaterial);
+      leftDeskSide.position.set(-1.95, -2.9, 0);
+      deskGroup.add(leftDeskSide);
+      
+      // Right desk side with drawers
+      const rightDeskSide = new THREE.Mesh(deskSideGeometry, deskSideMaterial);
+      rightDeskSide.position.set(1.95, -2.9, 0);
+      deskGroup.add(rightDeskSide);
+      
+      // Desk drawers
+      const drawerGeometry = new THREE.BoxGeometry(1.9, 0.5, 1.8);
+      const drawerMaterial = new THREE.MeshStandardMaterial({
+        color: 0x3A2E22,
+        roughness: 0.7,
+        metalness: 0.1
+      });
+      
+      // Drawer fronts
+      for (let i = 0; i < 3; i++) {
+        const drawer = new THREE.Mesh(drawerGeometry, drawerMaterial);
+        drawer.position.set(0, -2.35 - i * 0.5, 0);
+        
+        // Drawer handle
+        const handleGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.5, 8);
+        const handleMaterial = new THREE.MeshStandardMaterial({
+          color: 0xC0C0C0,
+          metalness: 0.8,
+          roughness: 0.2
+        });
+        const handle = new THREE.Mesh(handleGeometry, handleMaterial);
+        handle.rotation.z = Math.PI / 2;
+        handle.position.set(0, 0, 0.8);
+        drawer.add(handle);
+        
+        leftDeskSide.add(drawer.clone());
+        rightDeskSide.add(drawer.clone());
+      }
+      
+      // Position desk in the room
+      deskGroup.position.set(0, 0, -3);
+      roomGroup.add(deskGroup);
+      
+      // Computer setup
+      const computerGroup = new THREE.Group();
+      
+      // Monitor
+      const monitorStandGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.5, 8);
       const monitorBaseMaterial = new THREE.MeshStandardMaterial({
-        color: 0x333333,
-      });
-      const monitorBase = new THREE.Mesh(monitorBaseGeometry, monitorBaseMaterial);
-      monitorBase.position.set(0, -1.9, -3.5);
-      scene.add(monitorBase);
-      
-      const monitorStandGeometry = new THREE.BoxGeometry(0.1, 0.6, 0.1);
-      const monitorStand = new THREE.Mesh(monitorStandGeometry, monitorBaseMaterial);
-      monitorStand.position.set(0, -1.6, -3.5);
-      scene.add(monitorStand);
-      
-      const monitorGeometry = new THREE.BoxGeometry(2.2, 1.4, 0.1);
-      const monitorFrameMaterial = new THREE.MeshStandardMaterial({
         color: 0x222222,
+        metalness: 0.8,
+        roughness: 0.2
       });
-      const monitorFrame = new THREE.Mesh(monitorGeometry, monitorFrameMaterial);
-      monitorFrame.position.set(0, -1, -3.6);
-      scene.add(monitorFrame);
+      const monitorStand = new THREE.Mesh(monitorStandGeometry, monitorBaseMaterial);
+      monitorStand.position.set(0, -1.7, -3.5);
+      computerGroup.add(monitorStand);
       
-      const screenGeometry = new THREE.PlaneGeometry(2, 1.2);
+      // Monitor frame
+      const monitorFrameGeometry = new THREE.BoxGeometry(2.4, 1.5, 0.1);
+      const monitorFrameMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const monitorFrame = new THREE.Mesh(monitorFrameGeometry, monitorFrameMaterial);
+      monitorFrame.position.set(0, -1, -3.6);
+      computerGroup.add(monitorFrame);
+      
+      // Monitor screen
+      const screenGeometry = new THREE.PlaneGeometry(2.2, 1.3);
       const screenMaterial = new THREE.MeshBasicMaterial({
-        color: 0x1E1E3F,
+        color: 0x0C1021
       });
       const screen = new THREE.Mesh(screenGeometry, screenMaterial);
       screen.position.set(0, -1, -3.55);
-      scene.add(screen);
+      computerGroup.add(screen);
       
-      // Add code-like elements to screen
-      const createCodeLine = (y: number, width: number, color: number) => {
-        const lineGeometry = new THREE.PlaneGeometry(width, 0.05);
-        const lineMaterial = new THREE.MeshBasicMaterial({
-          color,
+      // Code editor interface
+      const createCodeBlock = () => {
+        const codeGroup = new THREE.Group();
+        
+        // Editor background
+        const editorBgGeometry = new THREE.PlaneGeometry(2.1, 1.2);
+        const editorBgMaterial = new THREE.MeshBasicMaterial({
+          color: 0x0C1021,
+        });
+        const editorBg = new THREE.Mesh(editorBgGeometry, editorBgMaterial);
+        editorBg.position.set(0, 0, 0.001);
+        codeGroup.add(editorBg);
+        
+        // Line numbers background
+        const lineNumbersBgGeometry = new THREE.PlaneGeometry(0.2, 1.2);
+        const lineNumbersBgMaterial = new THREE.MeshBasicMaterial({
+          color: 0x0A0E1A,
+        });
+        const lineNumbersBg = new THREE.Mesh(lineNumbersBgGeometry, lineNumbersBgMaterial);
+        lineNumbersBg.position.set(-0.95, 0, 0.002);
+        codeGroup.add(lineNumbersBg);
+        
+        // Code lines
+        const colors = {
+          keyword: 0xFF7B29,  // orange
+          string: 0x61CE3C,   // green
+          comment: 0x676B79,  // gray
+          variable: 0x8DDAF8, // light blue
+          function: 0x8B7EF0,  // purple
+          normal: 0xF8F8F8     // white
+        };
+        
+        // Create line of code
+        const createLine = (y: number, content: string, color: number) => {
+          const lineGeometry = new THREE.PlaneGeometry(content.length * 0.05, 0.05);
+          const lineMaterial = new THREE.MeshBasicMaterial({
+            color,
+            transparent: true,
+            opacity: 0.9
+          });
+          
+          const line = new THREE.Mesh(lineGeometry, lineMaterial);
+          line.position.set(-0.8 + content.length * 0.025, y, 0.003);
+          return line;
+        };
+        
+        // Create line number
+        const createLineNumber = (y: number, number: number) => {
+          const numGeometry = new THREE.PlaneGeometry(0.1, 0.05);
+          const numMaterial = new THREE.MeshBasicMaterial({
+            color: 0x3E4451,
+            transparent: true,
+            opacity: 0.9
+          });
+          
+          const numMesh = new THREE.Mesh(numGeometry, numMaterial);
+          numMesh.position.set(-0.95, y, 0.003);
+          return numMesh;
+        };
+        
+        // Add some code lines and numbers
+        const linesCount = 15;
+        const lineHeight = 0.07;
+        
+        for (let i = 0; i < linesCount; i++) {
+          const y = 0.5 - i * lineHeight;
+          
+          // Line numbers
+          codeGroup.add(createLineNumber(y, i + 1));
+          
+          // Code content with syntax highlighting
+          let color = colors.normal;
+          let length = 0.5 + Math.random() * 1.5; // Random line length
+          
+          // Some syntax highlighting patterns
+          if (i === 0 || i === 5) {
+            color = colors.keyword; // import/function keyword
+            length = 1.5;
+          } else if (i === 1 || i === 8) {
+            color = colors.string; // strings
+            length = 1.8;
+          } else if (i === 3) {
+            color = colors.comment; // comment
+            length = 2;
+          } else if (i === 6 || i === 9) {
+            color = colors.function; // function name
+            length = 1.2;
+          } else if (i === 7 || i === 10) {
+            color = colors.variable; // variable
+            length = 0.9;
+          }
+          
+          const line = createLine(y, "x".repeat(Math.floor(length * 10)), color);
+          codeGroup.add(line);
+        }
+        
+        // Cursor
+        const cursorGeometry = new THREE.PlaneGeometry(0.01, 0.07);
+        const cursorMaterial = new THREE.MeshBasicMaterial({
+          color: 0xF8F8F8,
           transparent: true,
           opacity: 0.8
         });
+        const cursor = new THREE.Mesh(cursorGeometry, cursorMaterial);
+        cursor.position.set(-0.3, 0.08, 0.004);
+        codeGroup.add(cursor);
         
-        const line = new THREE.Mesh(lineGeometry, lineMaterial);
-        line.position.set(0, y, 0.01);
-        return line;
+        // Animate cursor blinking
+        const animateCursor = () => {
+          cursorMaterial.opacity = 0.8;
+          setInterval(() => {
+            cursorMaterial.opacity = cursorMaterial.opacity > 0 ? 0 : 0.8;
+          }, 500);
+        };
+        
+        animateCursor();
+        
+        return codeGroup;
       };
       
-      // Add code lines to screen
-      const codeLines = [
-        createCodeLine(0.4, 0.8, 0x61DBFB),  // React blue
-        createCodeLine(0.3, 1.0, 0xF0F6FC),  // White
-        createCodeLine(0.2, 0.7, 0xF0F6FC),  // White
-        createCodeLine(0.1, 0.9, 0x3178C6),  // TypeScript blue
-        createCodeLine(0.0, 0.6, 0xF0F6FC),  // White
-        createCodeLine(-0.1, 0.9, 0xF0F6FC), // White
-        createCodeLine(-0.2, 0.7, 0x4584B6), // Python blue
-        createCodeLine(-0.3, 0.5, 0xF0F6FC), // White
-      ];
+      const codeEditor = createCodeBlock();
+      screen.add(codeEditor);
       
-      codeLines.forEach(line => {
-        // Slightly offset each line position for 3D effect
-        line.position.x = (Math.random() - 0.5) * 0.3;
-        screen.add(line);
-      });
+      // Keyboard with detailed keys
+      const keyboardGroup = new THREE.Group();
       
-      // Keyboard
-      const keyboardGeometry = new THREE.BoxGeometry(1.8, 0.1, 0.6);
+      // Keyboard base
+      const keyboardBaseGeometry = new THREE.BoxGeometry(2, 0.1, 0.8);
       const keyboardMaterial = new THREE.MeshStandardMaterial({
-        color: 0x333333,
+        color: 0x111111,
+        metalness: 0.8,
+        roughness: 0.2
       });
-      const keyboard = new THREE.Mesh(keyboardGeometry, keyboardMaterial);
-      keyboard.position.set(0, -1.9, -2.5);
-      scene.add(keyboard);
+      const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardMaterial);
+      keyboardGroup.add(keyboardBase);
       
-      // Chair
-      const chairSeatGeometry = new THREE.BoxGeometry(1.2, 0.1, 1.2);
+      // Create individual keys
+      const createKey = (x: number, z: number, width = 0.06, height = 0.06) => {
+        const keyGeometry = new THREE.BoxGeometry(width, 0.02, height);
+        const keyMaterial = new THREE.MeshStandardMaterial({
+          color: 0x333333,
+          metalness: 0.5,
+          roughness: 0.5
+        });
+        const key = new THREE.Mesh(keyGeometry, keyMaterial);
+        key.position.set(x, 0.06, z);
+        return key;
+      };
+      
+      // Add keys in rows
+      const rows = 5;
+      const keysPerRow = 15;
+      const keySpacing = 0.08;
+      
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < keysPerRow; col++) {
+          const x = col * keySpacing - keysPerRow * keySpacing / 2 + keySpacing / 2;
+          const z = row * keySpacing - rows * keySpacing / 2 + keySpacing;
+          
+          // Space bar is wider
+          if (row === 4 && col > 3 && col < 11) {
+            if (col === 4) {
+              const spaceBar = createKey(0, z + 0.04, 0.7, 0.08);
+              keyboardGroup.add(spaceBar);
+            }
+            continue;
+          }
+          
+          keyboardGroup.add(createKey(x, z));
+        }
+      }
+      
+      // Position keyboard
+      keyboardGroup.position.set(0, -1.95, -2.5);
+      computerGroup.add(keyboardGroup);
+      
+      // Mouse
+      const mouseGeometry = new THREE.BoxGeometry(0.3, 0.1, 0.5);
+      const mouseMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const mouse = new THREE.Mesh(mouseGeometry, mouseMaterial);
+      mouse.position.set(1.2, -1.95, -2.5);
+      computerGroup.add(mouse);
+      
+      // Mousepad
+      const mousepadGeometry = new THREE.BoxGeometry(0.6, 0.01, 0.8);
+      const mousepadMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        roughness: 0.9,
+        metalness: 0
+      });
+      const mousepad = new THREE.Mesh(mousepadGeometry, mousepadMaterial);
+      mousepad.position.set(1.2, -1.99, -2.5);
+      computerGroup.add(mousepad);
+      
+      // Add computer to scene
+      roomGroup.add(computerGroup);
+      
+      // Chair - more detailed gaming/office chair
+      const chairGroup = new THREE.Group();
+      
+      // Chair base (5-star base)
+      const chairBaseGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.05, 5);
       const chairMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const chairBase = new THREE.Mesh(chairBaseGeometry, chairMaterial);
+      chairBase.position.set(0, -3.8, -1.5);
+      chairGroup.add(chairBase);
+      
+      // Chair wheels (5 wheels)
+      for (let i = 0; i < 5; i++) {
+        const angle = (i / 5) * Math.PI * 2;
+        const wheelGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+        const wheel = new THREE.Mesh(wheelGeometry, chairMaterial);
+        wheel.position.set(
+          Math.cos(angle) * 0.6,
+          -3.9,
+          -1.5 + Math.sin(angle) * 0.6
+        );
+        chairGroup.add(wheel);
+      }
+      
+      // Chair stem
+      const stemGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 8);
+      const stem = new THREE.Mesh(stemGeometry, chairMaterial);
+      stem.position.set(0, -3.3, -1.5);
+      chairGroup.add(stem);
+      
+      // Chair seat
+      const seatGeometry = new THREE.BoxGeometry(1.2, 0.1, 1.2);
+      const seatMaterial = new THREE.MeshStandardMaterial({
         color: 0x0A1929,
+        roughness: 0.9,
+        metalness: 0.1
       });
-      const chairSeat = new THREE.Mesh(chairSeatGeometry, chairMaterial);
-      chairSeat.position.set(0, -2.5, -1.5);
-      scene.add(chairSeat);
+      const seat = new THREE.Mesh(seatGeometry, seatMaterial);
+      seat.position.set(0, -2.8, -1.5);
+      chairGroup.add(seat);
       
-      const chairBackGeometry = new THREE.BoxGeometry(1.2, 1.5, 0.1);
-      const chairBack = new THREE.Mesh(chairBackGeometry, chairMaterial);
-      chairBack.position.set(0, -1.75, -2);
-      chairBack.rotation.x = Math.PI * 0.1;
-      scene.add(chairBack);
+      // Chair back
+      const backGeometry = new THREE.BoxGeometry(1.2, 1.5, 0.1);
+      const back = new THREE.Mesh(backGeometry, seatMaterial);
+      back.position.set(0, -2, -2.05);
+      back.rotation.x = Math.PI * 0.1;
+      chairGroup.add(back);
       
-      // Programmer (simplified)
-      const headGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-      const bodyGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.4);
-      const personMaterial = new THREE.MeshStandardMaterial({
-        color: 0x3A506B,
+      // Add chair to room
+      roomGroup.add(chairGroup);
+      
+      // Person sitting in chair (more detailed)
+      const personGroup = new THREE.Group();
+      
+      // Head - with better shaping
+      const headGeometry = new THREE.SphereGeometry(0.3, 32, 32);
+      const skinMaterial = new THREE.MeshStandardMaterial({
+        color: 0xE0C8A0,
+        roughness: 0.7,
+        metalness: 0.1
+      });
+      const head = new THREE.Mesh(headGeometry, skinMaterial);
+      head.position.set(0, -1.3, -1.8);
+      personGroup.add(head);
+      
+      // Hair
+      const hairGeometry = new THREE.SphereGeometry(0.31, 32, 16);
+      const hairMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1A1A1A,
+        roughness: 0.9,
+        metalness: 0
+      });
+      // Cut the bottom of the hair sphere
+      const hairPos = new Float32Array(hairGeometry.attributes.position.array);
+      for (let i = 0; i < hairPos.length; i += 3) {
+        if (hairPos[i + 1] < 0) {
+          hairPos[i + 1] = 0;
+        }
+      }
+      hairGeometry.attributes.position.needsUpdate = true;
+      
+      const hair = new THREE.Mesh(hairGeometry, hairMaterial);
+      hair.position.set(0, -1.3, -1.8);
+      hair.rotation.x = 0.1;
+      personGroup.add(hair);
+      
+      // Eyes
+      const eyeGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+      const eyeMaterial = new THREE.MeshBasicMaterial({
+        color: 0x222222
       });
       
-      const head = new THREE.Mesh(headGeometry, personMaterial);
-      head.position.set(0, -1.3, -2);
-      scene.add(head);
+      const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+      leftEye.position.set(-0.1, -1.28, -1.55);
+      leftEye.scale.set(1, 0.5, 0.5);
+      personGroup.add(leftEye);
       
-      const body = new THREE.Mesh(bodyGeometry, personMaterial);
-      body.position.set(0, -1.9, -2);
-      scene.add(body);
+      const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+      rightEye.position.set(0.1, -1.28, -1.55);
+      rightEye.scale.set(1, 0.5, 0.5);
+      personGroup.add(rightEye);
+      
+      // Torso
+      const torsoGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.4);
+      const clothesMaterial = new THREE.MeshStandardMaterial({
+        color: 0x2E5C8A,
+        roughness: 0.8,
+        metalness: 0.1
+      });
+      const torso = new THREE.Mesh(torsoGeometry, clothesMaterial);
+      torso.position.set(0, -1.9, -1.8);
+      personGroup.add(torso);
       
       // Arms
-      const armGeometry = new THREE.BoxGeometry(0.2, 0.6, 0.2);
-      const leftArm = new THREE.Mesh(armGeometry, personMaterial);
-      leftArm.position.set(-0.5, -1.9, -2.2);
-      leftArm.rotation.z = -Math.PI / 6;
-      scene.add(leftArm);
+      const upperArmGeometry = new THREE.BoxGeometry(0.15, 0.4, 0.15);
+      const lowerArmGeometry = new THREE.BoxGeometry(0.12, 0.4, 0.12);
       
-      const rightArm = new THREE.Mesh(armGeometry, personMaterial);
-      rightArm.position.set(0.5, -1.9, -2.2);
-      rightArm.rotation.z = Math.PI / 6;
-      scene.add(rightArm);
+      // Left arm (in typing position)
+      const leftUpperArm = new THREE.Mesh(upperArmGeometry, clothesMaterial);
+      leftUpperArm.position.set(-0.35, -1.9, -1.8);
+      leftUpperArm.rotation.z = -Math.PI / 6;
+      personGroup.add(leftUpperArm);
+      
+      const leftLowerArm = new THREE.Mesh(lowerArmGeometry, skinMaterial);
+      leftLowerArm.position.set(-0.6, -2.1, -2.2);
+      leftLowerArm.rotation.set(Math.PI / 3, 0, -Math.PI / 6);
+      personGroup.add(leftLowerArm);
+      
+      // Right arm (in typing position)
+      const rightUpperArm = new THREE.Mesh(upperArmGeometry, clothesMaterial);
+      rightUpperArm.position.set(0.35, -1.9, -1.8);
+      rightUpperArm.rotation.z = Math.PI / 6;
+      personGroup.add(rightUpperArm);
+      
+      const rightLowerArm = new THREE.Mesh(lowerArmGeometry, skinMaterial);
+      rightLowerArm.position.set(0.6, -2.1, -2.2);
+      rightLowerArm.rotation.set(Math.PI / 3, 0, Math.PI / 6);
+      personGroup.add(rightLowerArm);
+      
+      // Legs (not visible but added for completeness)
+      const legGeometry = new THREE.BoxGeometry(0.2, 0.8, 0.2);
+      const pantsMaterial = new THREE.MeshStandardMaterial({
+        color: 0x222222,
+        roughness: 0.8,
+        metalness: 0.1
+      });
+      
+      const leftLeg = new THREE.Mesh(legGeometry, pantsMaterial);
+      leftLeg.position.set(-0.2, -3.2, -1.5);
+      personGroup.add(leftLeg);
+      
+      const rightLeg = new THREE.Mesh(legGeometry, pantsMaterial);
+      rightLeg.position.set(0.2, -3.2, -1.5);
+      personGroup.add(rightLeg);
+      
+      // Add person to room
+      roomGroup.add(personGroup);
+      
+      // Add desk accessories
+      
+      // Coffee mug
+      const mugGroup = new THREE.Group();
+      
+      const mugBodyGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.2, 16);
+      const mugMaterial = new THREE.MeshStandardMaterial({
+        color: 0xFFFFFF,
+        roughness: 0.8,
+        metalness: 0.1
+      });
+      const mugBody = new THREE.Mesh(mugBodyGeometry, mugMaterial);
+      mugGroup.add(mugBody);
+      
+      // Handle
+      const handleGeometry = new THREE.TorusGeometry(0.06, 0.02, 8, 16, Math.PI);
+      const handle = new THREE.Mesh(handleGeometry, mugMaterial);
+      handle.rotation.y = Math.PI / 2;
+      handle.position.set(0.1, 0, 0);
+      mugGroup.add(handle);
+      
+      // Coffee
+      const coffeeGeometry = new THREE.CylinderGeometry(0.09, 0.09, 0.01, 16);
+      const coffeeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x4A2C0F,
+        roughness: 0.8,
+        metalness: 0.1
+      });
+      const coffee = new THREE.Mesh(coffeeGeometry, coffeeMaterial);
+      coffee.position.set(0, 0.095, 0);
+      mugGroup.add(coffee);
+      
+      // Position mug on desk
+      mugGroup.position.set(1.5, -1.9, -3.3);
+      roomGroup.add(mugGroup);
+      
+      // Desk lamp
+      const lampGroup = new THREE.Group();
+      
+      // Lamp base
+      const lampBaseGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.05, 16);
+      const lampBaseMaterial = new THREE.MeshStandardMaterial({
+        color: 0x222222,
+        roughness: 0.8,
+        metalness: 0.2
+      });
+      const lampBase = new THREE.Mesh(lampBaseGeometry, lampBaseMaterial);
+      lampGroup.add(lampBase);
+      
+      // Lamp arm
+      const lampArmGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8);
+      const lampArmMaterial = new THREE.MeshStandardMaterial({
+        color: 0x444444,
+        roughness: 0.8,
+        metalness: 0.5
+      });
+      const lampArm = new THREE.Mesh(lampArmGeometry, lampArmMaterial);
+      lampArm.position.set(0, 0.2, 0);
+      lampGroup.add(lampArm);
+      
+      // Lamp head
+      const lampHeadGeometry = new THREE.ConeGeometry(0.15, 0.2, 16, 1, true);
+      const lampHeadMaterial = new THREE.MeshStandardMaterial({
+        color: 0x777777,
+        roughness: 0.8,
+        metalness: 0.5,
+        side: THREE.DoubleSide
+      });
+      const lampHead = new THREE.Mesh(lampHeadGeometry, lampHeadMaterial);
+      lampHead.position.set(0, 0.4, 0);
+      lampHead.rotation.x = Math.PI;
+      lampGroup.add(lampHead);
+      
+      // Lamp light
+      const lampLight = new THREE.SpotLight(0xFFECA9, 1, 10, Math.PI/3, 1, 1);
+      lampLight.position.set(0, 0.4, 0);
+      lampLight.target.position.set(0, -2, -3);
+      lampGroup.add(lampLight);
+      lampGroup.add(lampLight.target);
+      
+      // Position lamp on desk
+      lampGroup.position.set(-1.5, -1.9, -3.7);
+      lampGroup.rotation.x = Math.PI * 0.05;
+      lampGroup.rotation.y = Math.PI * 0.1;
+      roomGroup.add(lampGroup);
 
       // Add lights
       const light1 = new THREE.DirectionalLight(0xFFFFFF, 1);
@@ -290,20 +766,13 @@ const Hero = () => {
         targetX = mouseX * 0.1;
         targetY = mouseY * 0.1;
         
-        // Animate coding
-        codeLines.forEach((line, index) => {
-          const time = Date.now() * 0.001;
-          const blinkRate = 0.5 + Math.random() * 0.5;
-          const opacity = 0.5 + 0.5 * Math.sin(time * blinkRate + index);
-          (line.material as THREE.MeshBasicMaterial).opacity = opacity;
-        });
-        
-        // Subtle floating animation for the programmer
+        // Subtle animation for the scene
         const time = Date.now() * 0.001;
-        head.position.y = -1.3 + Math.sin(time * 0.5) * 0.05;
-        body.position.y = -1.9 + Math.sin(time * 0.5) * 0.05;
-        leftArm.position.y = -1.9 + Math.sin(time * 0.5) * 0.05;
-        rightArm.position.y = -1.9 + Math.sin(time * 0.5) * 0.05;
+        
+        // Animate programmer with subtle floating motion
+        if (personGroup) {
+          personGroup.position.y = Math.sin(time * 0.5) * 0.05;
+        }
         
         // Smooth camera movement following mouse
         const initialX = 5;
