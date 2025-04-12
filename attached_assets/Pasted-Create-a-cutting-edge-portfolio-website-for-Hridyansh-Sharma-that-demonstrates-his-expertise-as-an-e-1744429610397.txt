@@ -1,0 +1,72 @@
+Create a cutting-edge portfolio website for Hridyansh Sharma that demonstrates his expertise as an elite frontend developer with exceptional design skills. The current implementation lacks proper flow and interactivity—completely redesign it to create a memorable, immersive experience that feels alive and showcases true mastery of modern web technologies.
+Core Design Philosophy
+
+Create a seamless narrative flow where sections transition naturally into each other, not as isolated components
+Implement a dark-themed interface with purposeful color accents that guide the user's journey
+Design should feel continuously responsive, with micro-interactions at every touchpoint
+Site should feel like a living digital environment, not a static showcase
+
+Navigation & Flow
+
+Replace traditional navigation with an intuitive, spatially-oriented experience
+Implement smooth scene transitions with context-preserving animations between sections
+Create a visual storyline that guides visitors through the portfolio experience
+Add depth indicators and visual breadcrumbs so users always know where they are in the journey
+
+Interactive Elements
+
+Implement cursor interactions that affect nearby elements (magnetic pull, ripple effects, etc.)
+Create mouse-tracking elements that respond to user movement across the entire viewport
+Add physics-based interactions where elements have weight, momentum, and inertia
+Include subtle sound design elements that respond to significant interactions (optional but impactful)
+
+Visual Styling
+
+Use WebGL shaders for background effects that evolve based on scrolling position
+Implement distortion effects on images/elements during transitions
+Create custom animated SVG patterns that reflect the coding theme
+Design custom animated loaders and transitions between content areas
+
+Hero Section
+
+Design a dramatic entrance animation that establishes the high-end design tone
+Create a 3D scene that responds to gyroscope on mobile and mouse on desktop
+Implement parallax depth effects with multiple layers that create a sense of space
+Add subtle code-themed particle effects that transform into meaningful patterns
+
+Project Showcase
+
+Design an interactive 3D workspace that mimics a developer environment
+Create case study presentations with animated process flows and results
+Add interactive demonstrations where visitors can manipulate project elements
+Implement before/after comparisons with creative transition effects
+
+Skills Representation
+
+Design a dynamic skill visualization that shows interconnections between technologies
+Create interactive code samples that demonstrate actual coding expertise
+Implement animated skill progression paths showing growth and specialization
+Design a tech radar or constellation that maps skills in a visually compelling way
+
+Experience Timeline
+
+Create a non-linear, interactive timeline that visitors can manipulate
+Design milestone animations that trigger as they come into view
+Implement perspective shifts during scrolling to create depth in the experience section
+Add contextual details that emerge as users explore different timeline segments
+
+Contact Experience
+
+Design an interactive contact experience beyond a simple form
+Create a unique visualization of communication channels
+Implement subtle animations that make form interactions satisfying
+Add confirmation animations that make completing actions rewarding
+
+Technical Requirements
+
+Ensure fluid 60fps performance despite complex animations
+Implement proper loading states with interesting placeholder animations
+Create responsive breakpoints that maintain the immersive feel across all devices
+Optimize asset loading with intelligent preloading and lazy loading strategies
+
+The final portfolio should feel like a curated digital experience that only an exceptional frontend developer could create—something that potential employers or clients would immediately recognize as the work of someone with advanced design sensibilities and technical implementation skills.RetryClaude can make mistakes. Please double-check responses. 3.7 Sonnet

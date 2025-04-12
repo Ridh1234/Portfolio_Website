@@ -20,27 +20,50 @@
 @layer components {
   /* Custom Cursor */
   .cursor {
-    width: 20px;
-    height: 20px;
-    border: 2px solid hsl(var(--secondary));
+    width: 36px;
+    height: 36px;
+    border: 2px solid hsla(var(--secondary), 1);
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: difference;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                opacity 0.3s ease;
   }
 
   .cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: hsl(var(--primary));
+    width: 8px;
+    height: 8px;
+    background-color: hsla(var(--primary), 1);
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: difference;
-    transition: width 0.2s ease, height 0.2s ease;
+    transition: transform 0.2s ease, 
+                width 0.2s ease, 
+                height 0.2s ease, 
+                opacity 0.3s ease;
+  }
+  
+  .cursor-ripple {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: hsla(var(--primary), 0.5);
+    pointer-events: none;
+    z-index: 9997;
+    transform-origin: center;
+  }
+  
+  .cursor-text {
+    transform-origin: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
   }
 
   /* Progress Bar */
