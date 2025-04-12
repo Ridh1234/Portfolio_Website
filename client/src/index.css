@@ -77,12 +77,16 @@
   }
 
   /* Card 3D Effect */
-  .card-3d {
+  .perspective-card {
     perspective: 1000px;
   }
 
   .backface-hidden {
     backface-visibility: hidden;
+  }
+
+  .rotateY-180 {
+    transform: rotateY(180deg);
   }
 
   /* Timeline */
@@ -116,8 +120,21 @@
     animation: spin-slow 8s linear infinite;
   }
 
-  /* Preserve-3D */
+  /* 3D Transforms */
   .preserve-3d {
     transform-style: preserve-3d;
+  }
+
+  /* Skill Bubbles */
+  .skill-bubble {
+    position: absolute;
+    border-radius: 50%;
+    transform-origin: center center;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+
+  /* Blue Gradient */
+  .bg-blue-gradient {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
   }
 }

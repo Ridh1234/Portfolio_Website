@@ -124,6 +124,15 @@ export default {
         "pulse-slow": "pulse-slow 4s ease-in-out infinite",
         "spin-slow": "spin-slow 8s linear infinite"
       },
+      transformStyle: {
+        "preserve-3d": "preserve-3d",
+      },
+      transform: {
+        "rotateY-180": "rotateY(180deg)",
+      },
+      backfaceVisibility: {
+        "hidden": "hidden",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
