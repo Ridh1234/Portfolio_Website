@@ -1,188 +1,194 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { FaPython, FaJs, FaReact, FaNodeJs, FaDatabase, FaJava, FaHtml5, FaCss3Alt, FaGitAlt, FaDocker, FaAws, FaLinux } from "react-icons/fa";
-import { SiTypescript, SiCplusplus, SiTensorflow, SiPytorch, SiScikitlearn, SiExpress, SiTailwindcss, SiNextdotjs, SiDjango, SiFigma, SiMongodb, SiJenkins } from "react-icons/si";
+import {
+  FaPython,
+  FaJs,
+  FaReact,
+  FaNodeJs,
+  FaDatabase,
+  FaJava,
+  FaHtml5,
+  FaCss3Alt,
+  FaGitAlt,
+  FaDocker,
+  FaAws,
+  FaLinux
+} from "react-icons/fa";
+import {
+  SiTypescript,
+  SiCplusplus,
+  SiTensorflow,
+  SiPytorch,
+  SiScikitlearn,
+  SiExpress,
+  SiTailwindcss,
+  SiNextdotjs,
+  SiDjango,
+  SiFigma,
+  SiMongodb,
+  SiJenkins
+} from "react-icons/si";
 
-// Define skill data structure
-type SkillType = {
+// Define skill interface
+interface Skill {
   id: string;
   name: string;
   icon: React.ElementType;
   color: string;
-};
+}
 
-// Skills section with a clean, professional layout
+// Define category interface
+interface SkillCategory {
+  id: string;
+  title: string;
+  skills: Skill[];
+}
+
 const Skills = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  
-  // Skill categories with corresponding skills
-  const skillCategories = [
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  // Skill categories data
+  const skillCategories: SkillCategory[] = [
     {
-      name: "Programming Languages",
-      skills: [
-        { id: "python", name: "Python", icon: FaPython, color: "#306998" },
-        { id: "javascript", name: "JavaScript", icon: FaJs, color: "#F0DB4F" },
-        { id: "typescript", name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-        { id: "cpp", name: "C++", icon: SiCplusplus, color: "#00599C" },
-        { id: "java", name: "Java", icon: FaJava, color: "#ED8B00" }
-      ]
-    },
-    {
-      name: "Frontend Development",
+      id: "frontend",
+      title: "FRONTEND",
       skills: [
         { id: "react", name: "React", icon: FaReact, color: "#61DAFB" },
         { id: "html", name: "HTML5", icon: FaHtml5, color: "#E34F26" },
         { id: "css", name: "CSS3", icon: FaCss3Alt, color: "#1572B6" },
         { id: "tailwind", name: "Tailwind CSS", icon: SiTailwindcss, color: "#38B2AC" },
-        { id: "nextjs", name: "Next.js", icon: SiNextdotjs, color: "#000000" }
+        { id: "nextjs", name: "Next.js", icon: SiNextdotjs, color: "#000000" },
       ]
     },
     {
-      name: "Backend Development",
+      id: "backend",
+      title: "BACKEND",
       skills: [
         { id: "nodejs", name: "Node.js", icon: FaNodeJs, color: "#68A063" },
         { id: "express", name: "Express.js", icon: SiExpress, color: "#000000" },
         { id: "django", name: "Django", icon: SiDjango, color: "#092E20" },
+        { id: "mongodb", name: "MongoDB", icon: SiMongodb, color: "#47A248" },
         { id: "sql", name: "SQL", icon: FaDatabase, color: "#4479A1" },
-        { id: "mongodb", name: "MongoDB", icon: SiMongodb, color: "#47A248" }
       ]
     },
     {
-      name: "Machine Learning",
+      id: "languages",
+      title: "LANGUAGES",
+      skills: [
+        { id: "javascript", name: "JavaScript", icon: FaJs, color: "#F0DB4F" },
+        { id: "typescript", name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+        { id: "python", name: "Python", icon: FaPython, color: "#306998" },
+        { id: "cpp", name: "C++", icon: SiCplusplus, color: "#00599C" },
+        { id: "java", name: "Java", icon: FaJava, color: "#ED8B00" },
+      ]
+    },
+    {
+      id: "ai-ml",
+      title: "AI & ML",
       skills: [
         { id: "tensorflow", name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
         { id: "pytorch", name: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
-        { id: "scikit", name: "Scikit-Learn", icon: SiScikitlearn, color: "#F7931E" }
+        { id: "scikit", name: "Scikit-Learn", icon: SiScikitlearn, color: "#F7931E" },
+      ]
+    },
+    {
+      id: "devops",
+      title: "DEVOPS & TOOLS",
+      skills: [
+        { id: "git", name: "Git", icon: FaGitAlt, color: "#F05032" },
+        { id: "docker", name: "Docker", icon: FaDocker, color: "#2496ED" },
+        { id: "aws", name: "AWS", icon: FaAws, color: "#FF9900" },
+        { id: "figma", name: "Figma", icon: SiFigma, color: "#F24E1E" },
+        { id: "linux", name: "Linux", icon: FaLinux, color: "#FCC624" },
+        { id: "jenkins", name: "Jenkins", icon: SiJenkins, color: "#D24939" },
       ]
     }
   ];
 
-  // Tools & technologies
-  const additionalTools = [
-    { id: "git", name: "Git", icon: FaGitAlt, color: "#F05032" },
-    { id: "docker", name: "Docker", icon: FaDocker, color: "#2496ED" },
-    { id: "aws", name: "AWS", icon: FaAws, color: "#FF9900" },
-    { id: "figma", name: "Figma", icon: SiFigma, color: "#F24E1E" },
-    { id: "linux", name: "Linux", icon: FaLinux, color: "#FCC624" },
-    { id: "jenkins", name: "CI/CD", icon: SiJenkins, color: "#D24939" }
-  ];
-
   // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i: number) => ({
       opacity: 1,
+      y: 0,
       transition: {
-        staggerChildren: 0.1
+        delay: i * 0.1,
+        duration: 0.6,
+        ease: "easeOut"
       }
-    }
+    })
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
+    hidden: { opacity: 0, x: -20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    })
   };
 
   return (
-    <section id="skills" className="py-20 bg-background relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div ref={ref} className="text-center mb-16">
-          <motion.h2 
-            className="text-4xl font-bold mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-            transition={{ duration: 0.6 }}
-          >
-            Technical <span className="text-primary">Skills</span>
-          </motion.h2>
-          <motion.div 
-            className="w-20 h-1 bg-gradient-to-r from-primary to-primary/60 rounded-full mx-auto"
-            initial={{ opacity: 0, width: 0 }}
-            animate={isInView ? { opacity: 1, width: 80 } : { opacity: 0, width: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          ></motion.div>
-          <motion.p 
-            className="text-text-secondary mt-6 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            I specialize in a wide range of technologies, with particular expertise in web development and machine learning.
-          </motion.p>
-        </div>
+    <section ref={ref} id="skills" className="py-20 bg-[#111] relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-500/5 rounded-full blur-3xl"></div>
+      
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold mb-16 text-center text-white"
+          initial={{ opacity: 0, y: -20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.6 }}
+        >
+          Technical <span className="text-primary">Skills</span>
+        </motion.h2>
 
-        {/* Skills Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+        <div className="space-y-16">
           {skillCategories.map((category, categoryIndex) => (
-            <motion.div 
-              key={category.name}
-              className="bg-background-alt rounded-xl shadow-lg border border-border p-6"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+            <motion.div
+              key={category.id}
+              className="skill-category"
+              custom={categoryIndex}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={sectionVariants}
             >
-              <div className="border-b border-border pb-4 mb-5">
-                <h3 className="text-xl font-semibold text-primary">{category.name}</h3>
-              </div>
-              
-              <div className="flex flex-col space-y-5">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-medium text-text-primary">Tech Stack</span>
-                  <div className="flex space-x-4">
-                    {category.skills.map(skill => (
-                      <motion.div 
-                        key={skill.id}
-                        className="flex items-center"
-                        style={{ color: skill.color }}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                        transition={{ duration: 0.3, delay: 0.1 * categoryIndex + 0.1 }}
-                        whileHover={{ scale: 1.2 }}
-                      >
-                        <skill.icon className="text-2xl" />
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex flex-wrap items-center">
-                  {category.skills.map((skill, idx) => (
-                    <span 
-                      key={skill.id} 
-                      className="text-text-secondary font-mono text-sm"
+              <h3 className="text-3xl font-bold text-[#aaa] uppercase mb-8 tracking-wider">
+                {category.title}
+              </h3>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {category.skills.map((skill, skillIndex) => (
+                  <motion.div
+                    key={skill.id}
+                    className="flex items-center bg-[#1a1a1a] rounded-lg p-4 hover:bg-[#222] transition-all duration-300 border border-[#333]"
+                    custom={skillIndex}
+                    variants={itemVariants}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      boxShadow: `0 0 20px ${skill.color}30`,
+                      borderColor: skill.color 
+                    }}
+                  >
+                    <div 
+                      className="w-12 h-12 flex items-center justify-center mr-4 rounded-full bg-[#222] p-3"
+                      style={{ color: skill.color }}
                     >
-                      {skill.name}{idx < category.skills.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </div>
+                      <skill.icon className="text-2xl" />
+                    </div>
+                    <span className="text-white font-medium">{skill.name}</span>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Additional Tools */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="mt-12"
-        >
-          <h3 className="text-xl font-semibold mb-6 text-center text-primary">Additional Tools</h3>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-6">
-            {additionalTools.map((tool, index) => (
-              <motion.div
-                key={tool.id}
-                className="flex flex-col items-center justify-center p-4 rounded-md bg-background-alt hover:bg-background transition-all border border-border/50"
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-              >
-                <tool.icon style={{ color: tool.color }} className="text-3xl mb-2" />
-                <span className="text-sm text-text-secondary">{tool.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
