@@ -1,166 +1,195 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
   
-  const titleVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.6, ease: "easeOut" } 
+    }
   };
   
-  const gridItemVariants = {
+  const staggerVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: (custom: number) => ({
+    visible: (index: number) => ({
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, delay: 0.2 * custom }
+      transition: { duration: 0.5, delay: index * 0.1 }
     })
   };
 
   return (
-    <section id="about" className="py-20 px-6 relative" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto">
+    <section id="about" className="py-20 px-6" ref={sectionRef}>
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
         <motion.div 
           className="text-center mb-16"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          variants={titleVariants}
+          variants={fadeInVariants}
         >
-          <h2 className="text-4xl font-bold font-heading mb-4">About <span className="text-secondary">Me</span></h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+          <h2 className="text-4xl font-bold mb-4">
+            About <span className="text-primary">Me</span>
+          </h2>
+          <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
         </motion.div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Code Visualization */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.8 }}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeInVariants}
+            className="order-2 lg:order-1"
           >
-            <div className="relative overflow-hidden rounded-lg shadow-xl shadow-primary/20 transform hover:scale-105 transition-transform duration-500">
-              <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                <defs>
-                  <linearGradient id="codeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#7928ca" />
-                    <stop offset="100%" stopColor="#00e0ff" />
-                  </linearGradient>
-                </defs>
-                <rect width="400" height="400" fill="#0a0a1a" />
-                
-                {/* Abstract code visualization */}
-                <g fill="none" stroke="url(#codeGradient)" strokeWidth="1" opacity="0.7">
-                  {Array.from({ length: 20 }).map((_, i) => (
-                    <path 
-                      key={i} 
-                      d={`M${i * 20},0 v400`} 
-                      strokeDasharray="5,10"
-                      strokeDashoffset={i % 2 === 0 ? "0" : "10"}
-                    />
-                  ))}
-                  {Array.from({ length: 20 }).map((_, i) => (
-                    <path 
-                      key={i + 20} 
-                      d={`M0,${i * 20} h400`} 
-                      strokeDasharray="5,10"
-                      strokeDashoffset={i % 2 === 0 ? "0" : "10"}
-                    />
-                  ))}
-                </g>
-                
-                {/* Code snippets */}
-                <g fontFamily="Fira Code, monospace" fontSize="10">
-                  <text x="50" y="80" fill="#00e0ff">{"function createAI() {"}</text>
-                  <text x="70" y="100" fill="#a0a0a0">{"const model = new NeuralNetwork();"}</text>
-                  <text x="70" y="120" fill="#a0a0a0">{"model.addLayers([]);"}</text>
-                  <text x="70" y="140" fill="#a0a0a0">{"return model.train(data);"}</text>
-                  <text x="50" y="160" fill="#00e0ff">{"}"}</text>
-                  
-                  <text x="50" y="200" fill="#ff2a6d">{"class Developer {"}</text>
-                  <text x="70" y="220" fill="#a0a0a0">{"constructor(name, skills) {"}</text>
-                  <text x="90" y="240" fill="#ffffff">{'this.name = "Hridyansh";'}</text>
-                  <text x="90" y="260" fill="#ffffff">{'this.skills = ["ML", "JS", "React"];'}</text>
-                  <text x="70" y="280" fill="#a0a0a0">{"}"}</text>
-                  
-                  <text x="70" y="310" fill="#a0a0a0">{"createProject(idea) {"}</text>
-                  <text x="90" y="330" fill="#ffffff">{"return new Project(idea, this.skills);"}</text>
-                  <text x="70" y="350" fill="#a0a0a0">{"}"}</text>
-                  <text x="50" y="370" fill="#ff2a6d">{"}"}</text>
-                </g>
-              </svg>
+            <div className="bg-gray-900 rounded-lg p-6 border border-gray-700 h-full">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-gray-400 text-sm ml-2">hridyansh_profile.js</span>
+              </div>
+              
+              <div className="font-mono text-sm space-y-1 leading-relaxed">
+                <div className="text-gray-500">// Software Developer Profile</div>
+                <div className="text-blue-400">
+                  <span className="text-purple-400">const</span> developer = {"{"}
+                </div>
+                <div className="pl-4 text-gray-300">
+                  name: <span className="text-green-400">"Hridyansh"</span>,
+                </div>
+                <div className="pl-4 text-gray-300">
+                  role: <span className="text-green-400">"Full-Stack Developer and AI/ML Engineer"</span>,
+                </div>
+                <div className="pl-4 text-gray-300">
+                  location: <span className="text-green-400">"Rajasthan, India"</span>,
+                </div>
+                <div className="pl-4 text-gray-300">
+                  education: {"{"}
+                </div>
+                <div className="pl-8 text-gray-300">
+                  institute: <span className="text-green-400">"IIIT Vadodara"</span>,
+                </div>
+                <div className="pl-8 text-gray-300">
+                  degree: <span className="text-green-400">"B.Tech Computer Science"</span>,
+                </div>
+                <div className="pl-8 text-gray-300">
+                  year: <span className="text-green-400">"2022-2026"</span>
+                </div>
+                <div className="pl-4 text-gray-300">{"},"}</div>
+                <div className="pl-4 text-gray-300">
+                  skills: {"{"}
+                </div>
+                <div className="pl-8 text-gray-300">
+                  frontend: [<span className="text-green-400">"React"</span>, <span className="text-green-400">"JavaScript"</span>, <span className="text-green-400">"HTML/CSS"</span>],
+                </div>
+                <div className="pl-8 text-gray-300">
+                  backend: [<span className="text-green-400">"Node.js"</span>, <span className="text-green-400">"Python"</span>, <span className="text-green-400">"Express"</span>],
+                </div>
+                <div className="pl-8 text-gray-300">
+                  ml_ai: [<span className="text-green-400">"TensorFlow"</span>, <span className="text-green-400">"PyTorch"</span>, <span className="text-green-400">"Scikit-learn"</span>],
+                </div>
+                <div className="pl-8 text-gray-300">
+                  database: [<span className="text-green-400">"MongoDB"</span>, <span className="text-green-400">"PostgreSQL"</span>, <span className="text-green-400">"SQLite"</span>]
+                </div>
+                <div className="pl-4 text-gray-300">{"},"}</div>
+                <div className="pl-4 text-gray-300">
+                  interests: [<span className="text-green-400">"AI/ML"</span>, <span className="text-green-400">"Web Development"</span>, <span className="text-green-400">"Open Source"</span>],
+                </div>
+                <div className="pl-4 text-gray-300">
+                  currentFocus: <span className="text-green-400">"Building intelligent web applications"</span>,
+                </div>
+                <div className="pl-4 text-gray-300">
+                  motto: <span className="text-green-400">"Code with purpose, build with passion"</span>
+                </div>
+                <div className="text-blue-400">{"}"}</div>
+                <div className="mt-4"></div>
+                <div className="text-gray-500">// Function to showcase projects</div>
+                <div className="text-yellow-400">
+                  <span className="text-purple-400">function</span> <span className="text-blue-400">getProjects</span>() {"{"}
+                </div>
+                <div className="pl-4 text-purple-400">
+                  <span className="text-blue-400">return</span> developer.skills.map(<span className="text-orange-400">skill</span> {" => "} {"{"}
+                </div>
+                <div className="pl-8 text-gray-300">
+                  <span className="text-blue-400">return</span> <span className="text-green-400">`Building amazing projects with ${"{"}skill{"}"}`</span>;
+                </div>
+                <div className="pl-4 text-gray-300">{"});"}</div>
+                <div className="text-yellow-400">{"}"}</div>
+                <div className="mt-4"></div>
+                <div className="text-gray-500">// Always learning and growing</div>
+                <div className="text-gray-300">
+                  console.<span className="text-yellow-400">log</span>(<span className="text-green-400">"Ready to create the future!"</span>);
+                </div>
+              </div>
             </div>
           </motion.div>
           
-          <div>
-            <motion.p 
-              className="text-text-secondary mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+          {/* Content */}
+          <div className="order-1 lg:order-2 space-y-8">
+            <motion.div
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={fadeInVariants}
             >
-              I am a passionate software developer currently pursuing my degree at IIIT Vadodara International Campus Diu. My journey in tech is driven by a fascination with creating intelligent, user-friendly solutions that solve real-world problems.
-            </motion.p>
-            
-            <motion.div 
-              className="timeline-container mb-10"
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="timeline-dot mt-0"></div>
-              <div className="pb-8">
-                <h3 className="text-xl font-semibold text-text-primary">Education</h3>
-                <div className="mt-2 text-text-secondary">
-                  <div className="font-heading text-secondary">IIIT Vadodara</div>
-                  <div>B.Tech in Computer Science</div>
-                  <div className="text-sm">2022 - Present</div>
-                </div>
-              </div>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                I am a passionate software developer currently pursuing my degree at IIIT Vadodara International Campus Diu. My journey in tech is driven by a fascination with creating intelligent, user-friendly solutions that solve real-world problems.
+              </p>
             </motion.div>
             
-            <div className="grid grid-cols-2 gap-6">
+            {/* Education */}
+            <motion.div 
+              className="border-l-4 border-primary pl-6 py-4"
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={fadeInVariants}
+            >
+              <h3 className="text-xl font-semibold text-white mb-2">Education</h3>
+              <div className="text-primary font-medium">IIIT Vadodara</div>
+              <div className="text-gray-300">B.Tech in Computer Science</div>
+              <div className="text-gray-400 text-sm">2022 - Present</div>
+            </motion.div>
+            
+            {/* Skills Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 {
-                  icon: "fas fa-code",
-                  color: "text-primary",
+                  icon: "💻",
                   title: "Full-Stack Development",
-                  description: "Building responsive, scalable applications with modern frameworks."
+                  description: "Building responsive applications with modern frameworks"
                 },
                 {
-                  icon: "fas fa-brain",
-                  color: "text-secondary",
+                  icon: "🧠",
                   title: "Machine Learning & AI",
-                  description: "Developing intelligent systems that learn and adapt."
+                  description: "Developing intelligent systems that learn and adapt"
                 },
                 {
-                  icon: "fas fa-project-diagram",
-                  color: "text-primary",
+                  icon: "🏗️",
                   title: "System Architecture",
-                  description: "Designing efficient, scalable software architectures."
+                  description: "Designing efficient, scalable software architectures"
                 },
                 {
-                  icon: "fas fa-chart-line",
-                  color: "text-secondary",
+                  icon: "📊",
                   title: "Problem Solving",
-                  description: "Analytical approach to complex challenges."
+                  description: "Analytical approach to complex challenges"
                 }
               ].map((item, index) => (
                 <motion.div 
                   key={index}
-                  className="bg-background-alt p-6 rounded-lg hover:shadow-lg hover:shadow-primary/20 transition-all transform hover:-translate-y-1"
+                  className="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-primary/50 transition-colors duration-300"
                   custom={index}
                   initial="hidden"
                   animate={isInView ? "visible" : "hidden"}
-                  variants={gridItemVariants}
-                  data-cursor-interactive
+                  variants={staggerVariants}
                 >
-                  <i className={`${item.icon} text-4xl ${item.color} mb-4`}></i>
-                  <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                  <p className="text-text-secondary text-sm">{item.description}</p>
+                  <div className="text-3xl mb-3">{item.icon}</div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
+                  <p className="text-gray-400 text-sm">{item.description}</p>
                 </motion.div>
               ))}
             </div>
