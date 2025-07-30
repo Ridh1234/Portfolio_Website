@@ -12,7 +12,8 @@ import {
   FaGitAlt,
   FaDocker,
   FaAws,
-  FaLinux
+  FaLinux,
+  FaRobot
 } from "react-icons/fa";
 import {
   SiTypescript,
@@ -26,7 +27,13 @@ import {
   SiDjango,
   SiFigma,
   SiMongodb,
-  SiJenkins
+  SiJenkins,
+  SiVite,
+  SiSupabase,
+  SiFastapi,
+  SiChartdotjs,
+  SiHuggingface,
+  SiSqlite
 } from "react-icons/si";
 
 // Define skill interface
@@ -59,6 +66,9 @@ const Skills = () => {
         { id: "css", name: "CSS3", icon: FaCss3Alt, color: "#1572B6" },
         { id: "tailwind", name: "Tailwind CSS", icon: SiTailwindcss, color: "#38B2AC" },
         { id: "nextjs", name: "Next.js", icon: SiNextdotjs, color: "#000000" },
+        { id: "vite", name: "Vite", icon: SiVite, color: "#646CFF" },
+        { id: "chartjs", name: "Chart.js", icon: SiChartdotjs, color: "#FF6384" },
+        { id: "jspdf", name: "jsPDF", icon: FaJs, color: "#E02521" },
       ]
     },
     {
@@ -69,6 +79,9 @@ const Skills = () => {
         { id: "express", name: "Express.js", icon: SiExpress, color: "#000000" },
         { id: "mongodb", name: "MongoDB", icon: SiMongodb, color: "#47A248" },
         { id: "sql", name: "SQL", icon: FaDatabase, color: "#4479A1" },
+        { id: "fastapi", name: "FastAPI", icon: SiFastapi, color: "#009688" },
+        { id: "supabase", name: "Supabase", icon: SiSupabase, color: "#3ECF8E" },
+        { id: "sqlite", name: "SQLite", icon: SiSqlite, color: "#003B57" },
       ]
     },
     {
@@ -89,6 +102,9 @@ const Skills = () => {
         { id: "tensorflow", name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
         { id: "pytorch", name: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
         { id: "scikit", name: "Scikit-Learn", icon: SiScikitlearn, color: "#F7931E" },
+        { id: "huggingface", name: "Hugging Face", icon: SiHuggingface, color: "#FFCC00" },
+        { id: "langchain", name: "LangChain", icon: FaRobot, color: "#2A2A72" },
+        { id: "chromadb", name: "ChromaDB", icon: FaDatabase, color: "#FF6F91" },
       ]
     },
     {
