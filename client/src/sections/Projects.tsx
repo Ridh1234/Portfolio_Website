@@ -14,6 +14,13 @@ import {
   SiGithub,
   SiGooglecloud,
   SiFastapi,
+  SiTailwindcss,
+  SiMongodb,
+  SiSupabase,
+  SiVite,
+  SiChartdotjs,
+  SiHuggingface,
+  SiSqlite,
 } from "react-icons/si";
 import { FaGem, FaRobot, FaCamera, FaTools } from "react-icons/fa";
 
@@ -39,15 +46,41 @@ const iconMap: Record<string, JSX.Element> = {
   Frontend: <SiReact className="text-xl" />,
   Surveillance: <FaCamera className="text-xl" />,
   Security: <FaCamera className="text-xl" />,
+  Tailwind: <SiTailwindcss className="text-xl" />,
+  Vite: <SiVite className="text-xl" />,
+  MongoDB: <SiMongodb className="text-xl" />,
+  Supabase: <SiSupabase className="text-xl" />,
+  "Hugging Face": <SiHuggingface className="text-xl" />,
+  "Chart.js": <SiChartdotjs className="text-xl" />,
+  jsPDF: <SiJavascript className="text-xl" />,
+  SQLite: <SiSqlite className="text-xl" />,
+  FastAPI: <SiFastapi className="text-xl" />,
 };
 
 const projects = [
+  {
+    title: "SentiantAI – Social Media Sentiment Intelligence Platform",
+    description:
+      "Full-stack AI-powered platform that ingests Twitter, Reddit, YouTube & news data in real time to provide sentiment insights, dashboards, and downloadable PDF reports.",
+    tags: ["React", "Vite", "Tailwind", "FastAPI", "MongoDB", "Supabase", "Hugging Face", "Chart.js", "jsPDF"],
+    github: "https://sentiant-ai.vercel.app/",
+    buttonText: "Live Link",
+  },
+  {
+    title: "AgentXN – Modular Local AI Assistant Platform",
+    description:
+      "Privacy-focused local AI agent framework with plug-and-play microservices for calendar, file search, and to-do management, featuring LangChain reasoning and persistent ChromaDB memory.",
+    tags: ["Python", "FastAPI", "LangChain", "SQLite", "ChromaDB", "HTML", "CSS", "JavaScript"],
+    github: "https://github.com/Ridh1234/AgentXN",
+    buttonText: "GitHub Repo",
+  },
   {
     title: "Neural Text-to-Speech System",
     description:
       "Tacotron2 + HiFi-GAN based TTS system with 30% boost in naturalness and 45% faster inference using CUDA and batch optimization.",
     tags: ["Python", "PyTorch", "Tacotron2", "HiFi-GAN", "CUDA"],
-    github: "https://github.com/Ridh1234/Speech-Synthesis",
+    github: "https://huggingface.co/spaces/hridyansh22/Speech-Synthesis",
+    buttonText:"Live Link",
   },
   {
     title: "Document Structure Analysis",
@@ -140,7 +173,7 @@ const Projects = () => {
                   rel="noopener noreferrer"
                   className="inline-block mt-2 px-5 py-2 text-white bg-blue-700 hover:bg-blue-800 text-sm font-medium rounded-full"
                 >
-                  View in Detail
+                  {project.buttonText ?? "View in Detail"}
                 </a>
               </div>
               <div className="flex-1 flex flex-wrap gap-3 items-start mt-4 md:mt-0">
