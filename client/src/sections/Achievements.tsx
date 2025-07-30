@@ -34,6 +34,12 @@ interface Achievement {
 
 const achievements: Achievement[] = [
   {
+    icon: "fas fa-shopping-cart",
+    metric: "Semi Finals",
+    title: "Flipkart Grid 7.0",
+    description: "Reached semi-finals in Flipkart GRiD 7.0 engineering challenge"
+  },
+  {
     icon: "fas fa-trophy",
     metric: "Top 4.22%",
     title: "LeetCode Global Ranking",
@@ -55,11 +61,13 @@ const achievements: Achievement[] = [
     icon: "fas fa-laptop-code",
     metric: "Finalist",
     title: "CODE-Voyage",
-    description: "Secured second round in IIIT coding contest on HackerRank"
+    description: "Secured second rank in Inter IIIT coding contest on HackerRank"
   }
+  
 ];
 
 interface Certification {
+  link?: string;
   title: string;
   organization: string;
   description: string;
@@ -67,6 +75,13 @@ interface Certification {
 }
 
 const certifications: Certification[] = [
+  {
+    title: "Fundamentals of Deep Learning",
+    organization: "NVIDIA Deep Learning Institute",
+    description: "Completed NVIDIA DLI course and earned certificate",
+    year: 2025,
+    link: "https://learn.nvidia.com/certificates?id=0YOdZ_t7RkOiDMhz1GqzZg"
+  },
   {
     title: "Google Cloud Digital Leader",
     organization: "Google Cloud",
@@ -189,7 +204,13 @@ const Achievements: React.FC = () => {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
+                      {cert.link ? (
+                        <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-text-primary hover:underline">
+                          {cert.title}
+                        </a>
+                      ) : (
+                        <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
+                      )}
                       <p className="text-secondary font-medium text-sm">{cert.organization}</p>
                       <p className="mt-2 text-text-secondary text-sm">{cert.description}</p>
                     </div>
