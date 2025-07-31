@@ -3,13 +3,30 @@
 @tailwind utilities;
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     @apply border-border;
+    box-sizing: border-box;
   }
 
-  body {
-    @apply font-sans antialiased bg-background text-foreground; 
-    cursor: none;
+  html, body {
+    @apply font-sans antialiased bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto;   /* Only vertical scroll when needed */
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  /* Hide scrollbar for WebKit browsers */
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   html {
@@ -42,17 +59,17 @@
     mix-blend-mode: difference;
     transition: width 0.2s ease, height 0.2s ease;
   }
-  
+
   /* Contact section particles */
   .particles-container {
     overflow: hidden;
   }
-  
+
   .particle {
     box-shadow: 0 0 10px 2px var(--tw-shadow-color);
     --tw-shadow-color: hsl(var(--primary));
   }
-  
+
   /* Background particles animation */
   @keyframes floating {
     0% {
