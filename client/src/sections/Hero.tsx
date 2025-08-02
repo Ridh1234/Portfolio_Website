@@ -117,7 +117,7 @@ const Hero = () => {
               <span>Contact Me</span>
             </a>
             <a 
-              href="/Hridyansh Main resume.pdf?v=2" 
+              href="/Hridyansh_Resume.pdf?v=2" 
               className="w-full md:w-auto px-6 py-3 bg-blue-700 text-white rounded-full font-semibold hover:bg-blue-800 transition-all flex items-center justify-center"
               data-cursor-interactive
               download
