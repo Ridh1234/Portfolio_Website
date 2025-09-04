@@ -29,36 +29,27 @@ const Experience = () => {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section id="experience" ref={ref} className="py-20 bg-background relative overflow-hidden">
-      {/* Animated background highlights */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-indigo-500/15 to-pink-500/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+    <section id="experience" ref={ref} className="py-20 relative overflow-hidden">
+      {/* Subtle accent glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-16 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
       </div>
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="section-container relative z-10">
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-16 text-center text-white"
+          className="section-title text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
         >
-          Work <span className="text-blue-400 relative">
-            Experience
-            <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-cyan-500/30 blur-lg"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            />
-          </span>
+          <span className="gradient-text">Experience</span>
         </motion.h2>
 
         {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
-          {/* Timeline line with glow */}
-          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-cyan-400 to-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+          {/* Timeline line */}
+          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-blue-500/40"></div>
           
           {experiences.map((exp, idx) => (
             <motion.div
@@ -68,156 +59,29 @@ const Experience = () => {
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               className="mb-12 relative pl-16"
             >
-              {/* Dot with pulsing glow */}
-              <motion.div 
-                className="absolute left-4 top-6 w-4 h-4 bg-blue-400 rounded-full ring-4 ring-gray-900 border-2 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.8)] z-10"
-                animate={{ 
-                  boxShadow: [
-                    "0_0_20px_rgba(59,130,246,0.8)",
-                    "0_0_30px_rgba(59,130,246,1)",
-                    "0_0_20px_rgba(59,130,246,0.8)"
-                  ]
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  delay: idx * 0.5
-                }}
-              />
+              {/* Dot */}
+              <div className="absolute left-4 top-6 w-3 h-3 bg-blue-400 rounded-full ring-4 ring-background border-2 border-blue-400" />
 
-              <motion.div 
-                className="bg-transparent border border-gray-700/30 rounded-xl p-8 shadow-2xl hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)] transition-all duration-300 hover:border-blue-500/50 relative overflow-hidden backdrop-blur-[2px]"
-                whileHover={{ 
-                  scale: 1.02,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                {/* Card hover highlight overlay */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 opacity-0 rounded-xl"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                <div className="mb-6 relative z-10">
-                  <motion.h3 
-                    className="text-xl font-bold text-white mb-2 relative"
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.6, delay: idx * 0.2 + 0.3 }}
-                  >
-                    {exp.role}
-                    <motion.div 
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/20 to-transparent blur-sm"
-                      initial={{ x: "-100%", opacity: 0 }}
-                      animate={isInView ? { x: "100%", opacity: [0, 1, 0] } : {}}
-                      transition={{ 
-                        duration: 1.5, 
-                        delay: idx * 0.3 + 1,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  </motion.h3>
+              <div className="modern-card p-8 hover:border-primary/60">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-foreground mb-2">{exp.role}</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <motion.p 
-                      className="text-blue-400 font-semibold text-lg relative"
-                      initial={{ opacity: 0 }}
-                      animate={isInView ? { opacity: 1 } : {}}
-                      transition={{ duration: 0.6, delay: idx * 0.2 + 0.4 }}
-                    >
-                      @ {exp.company}
-                      <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent blur-sm"
-                        initial={{ x: "-100%", opacity: 0 }}
-                        animate={isInView ? { x: "100%", opacity: [0, 1, 0] } : {}}
-                        transition={{ 
-                          duration: 1.5, 
-                          delay: idx * 0.3 + 1.3,
-                          ease: "easeInOut"
-                        }}
-                      />
-                    </motion.p>
+                    <p className="text-blue-400 font-semibold text-lg">@ {exp.company}</p>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm">
-                      <motion.span 
-                        className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full font-medium relative overflow-hidden"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.6, delay: idx * 0.2 + 0.5 }}
-                      >
-                        {exp.period}
-                        <motion.div 
-                          className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-cyan-400/30"
-                          initial={{ x: "-100%" }}
-                          animate={isInView ? { x: "100%" } : {}}
-                          transition={{ 
-                            duration: 1, 
-                            delay: idx * 0.3 + 1.8,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      </motion.span>
-                      <motion.span 
-                        className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium relative overflow-hidden"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.6, delay: idx * 0.2 + 0.6 }}
-                      >
-                        {exp.location}
-                        <motion.div 
-                          className="absolute inset-0 bg-gradient-to-r from-gray-500/30 to-gray-400/30"
-                          initial={{ x: "-100%" }}
-                          animate={isInView ? { x: "100%" } : {}}
-                          transition={{ 
-                            duration: 1, 
-                            delay: idx * 0.3 + 2,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      </motion.span>
+                      <span className="px-3 py-1 bg-blue-500/15 text-blue-300 rounded-full font-medium">{exp.period}</span>
+                      <span className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-full font-medium">{exp.location}</span>
                     </div>
                   </div>
                 </div>
-                <ul className="space-y-4 relative z-10">
+                <ul className="space-y-3">
                   {exp.responsibilities.map((item, i) => (
-                    <motion.li 
-                      key={i} 
-                      className="flex items-start gap-3 text-gray-300 leading-relaxed relative"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.6, delay: idx * 0.2 + i * 0.1 + 0.7 }}
-                    >
-                      <motion.div 
-                        className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"
-                        animate={{ 
-                          boxShadow: [
-                            "0_0_5px_rgba(59,130,246,0.5)",
-                            "0_0_10px_rgba(59,130,246,0.8)",
-                            "0_0_5px_rgba(59,130,246,0.5)"
-                          ]
-                        }}
-                        transition={{ 
-                          duration: 2, 
-                          repeat: Infinity,
-                          delay: i * 0.3
-                        }}
-                      />
-                      <span className="text-sm sm:text-base relative">
-                        {item}
-                        <motion.div 
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent blur-sm"
-                          initial={{ x: "-100%", opacity: 0 }}
-                          animate={isInView ? { x: "100%", opacity: [0, 0.5, 0] } : {}}
-                          transition={{ 
-                            duration: 2, 
-                            delay: idx * 0.5 + i * 0.2 + 2.5,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      </span>
-                    </motion.li>
+                    <li key={i} className="flex items-start gap-3 text-slate-300 leading-relaxed">
+                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
+                      <span className="text-sm sm:text-base">{item}</span>
+                    </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </div>
