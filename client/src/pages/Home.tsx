@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Navbar from "@/components/Navbar";
-import ParticlesBackground from "@/components/ParticlesBackground";
-import GradientBlob from "@/components/GradientBlob";
 import Hero from "@/sections/Hero";
 import About from "@/sections/About";
 import Skills from "@/sections/Skills";
@@ -11,7 +9,7 @@ import Projects from "@/sections/Projects";
 import Achievements from "@/sections/Achievements";
 import Contact from "@/sections/Contact";
 
-// Import necessary libraries
+// Import necessary libraries for smooth animations
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -20,7 +18,7 @@ const Home = () => {
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Add scroll-based animations
+    // Add subtle scroll-based animations
     const sections = document.querySelectorAll("section");
     
     sections.forEach((section, i) => {
@@ -29,14 +27,15 @@ const Home = () => {
 
       gsap.fromTo(
         section,
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
@@ -49,62 +48,31 @@ const Home = () => {
     };
   }, []);
 
-  // Add script tags for third-party libraries
-  useEffect(() => {
-    const loadScripts = async () => {
-      // Load particles.js
-      const particlesScript = document.createElement('script');
-      particlesScript.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
-      particlesScript.async = true;
-      document.body.appendChild(particlesScript);
-    };
-
-    loadScripts();
-
-    return () => {
-      // Cleanup scripts if needed
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-background text-text-primary font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Helmet>
         <title>Hridyansh Sharma | Portfolio</title>
         <meta name="description" content="Portfolio of Hridyansh Sharma, a software developer specializing in full-stack development, machine learning, and AI." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
 
-      {/* Particles Background */}
-      <ParticlesBackground />
-
-      {/* Gradient Blobs */}
-      <GradientBlob 
-        width="500px" 
-        height="500px" 
-        position={{ top: "-250px", right: "-100px" }} 
-      />
-      <GradientBlob 
-        width="400px" 
-        height="400px" 
-        position={{ top: "30%", left: "-200px" }} 
-        delay={2}
-      />
-      <GradientBlob 
-        width="600px" 
-        height="600px" 
-        position={{ bottom: "10%", right: "-300px" }} 
-        delay={4}
-      />
-
-      {/* Main Content */}
-      <div className="content relative z-10">
+      {/* Minimal clean background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 pointer-events-none" />
+      <div className="fixed -top-24 -right-24 w-[40rem] h-[40rem] rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+      <div className="fixed -bottom-24 -left-24 w-[46rem] h-[46rem] rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+      
+      {/* Main Content with padding to avoid navbar overlap */}
+      <div className="relative z-10 pt-28">
         <Navbar />
-        <Hero />
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Achievements />
-        <Contact />
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Skills />
+          <Projects />
+          <Achievements />
+          <Contact />
+        </main>
       </div>
     </div>
   );
