@@ -9,82 +9,67 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        "blob": "40% 60% 60% 40% / 60% 30% 70% 40%",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["Fira Code", "monospace"],
-        heading: ["Space Grotesk", "sans-serif"],
-      },
-      backgroundColor: {
-        "background-alt": "hsl(var(--background-alt))",
-      },
-      textColor: {
-        "text-primary": "hsl(var(--text-primary))",
-        "text-secondary": "hsl(var(--text-secondary))",
+        mono: ["JetBrains Mono", "monospace"],
+        heading: ["Inter", "sans-serif"],
       },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        // Use RGB CSS variables (supports / <alpha-value>)
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "rgb(var(--card) / <alpha-value>)",
+          foreground: "rgb(var(--card-foreground) / <alpha-value>)",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "rgb(var(--popover) / <alpha-value>)",
+          foreground: "rgb(var(--popover-foreground) / <alpha-value>)",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "rgb(var(--primary) / <alpha-value>)",
+          foreground: "rgb(var(--primary-foreground) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "rgb(var(--secondary) / <alpha-value>)",
+          foreground: "rgb(var(--secondary-foreground) / <alpha-value>)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "rgb(var(--muted) / <alpha-value>)",
+          foreground: "rgb(var(--muted-foreground) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "rgb(var(--destructive) / <alpha-value>)",
+          foreground: "rgb(var(--destructive-foreground) / <alpha-value>)",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        border: "rgb(var(--border) / <alpha-value>)",
+        input: "rgb(var(--input) / <alpha-value>)",
+        ring: "rgb(var(--ring) / <alpha-value>)",
         chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
+          "1": "rgb(var(--chart-1) / <alpha-value>)",
+          "2": "rgb(var(--chart-2) / <alpha-value>)",
+          "3": "rgb(var(--chart-3) / <alpha-value>)",
+          "4": "rgb(var(--chart-4) / <alpha-value>)",
+          "5": "rgb(var(--chart-5) / <alpha-value>)",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
-        // Custom blue palette
-        blue: {
-          100: '#bfdbfe',
-          200: '#93c5fd',
-          300: '#60a5fa',
-          400: '#3b82f6',
-          500: '#2563eb',
-          600: '#1d4ed8',
-          700: '#1e40af',
-          800: '#1e3a8a',
-          900: '#172554'
+        // Steel Blue Palette
+        "steel-blue": {
+          "50": "#f3f7fb",
+          "100": "#e4ecf5",
+          "200": "#cfdeee",
+          "300": "#afc9e1",
+          "400": "#88acd2",
+          "500": "#6c92c5",
+          "600": "#5c7db9",
+          "700": "#4e69a7",
+          "800": "#445789",
+          "900": "#3a4a6e",
+          "950": "#272f44",
         }
       },
       keyframes: {
@@ -106,7 +91,7 @@ export default {
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-15px)" }
+          "50%": { transform: "translateY(-8px)" }
         },
         "pulse-slow": {
           "0%, 100%": { opacity: 0.6 },
@@ -124,19 +109,10 @@ export default {
         "pulse-slow": "pulse-slow 4s ease-in-out infinite",
         "spin-slow": "spin-slow 8s linear infinite"
       },
-      transformStyle: {
-        "preserve-3d": "preserve-3d",
-      },
-      transform: {
-        "rotateY-180": "rotateY(180deg)",
-      },
-      backfaceVisibility: {
-        "hidden": "hidden",
-      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'blue-gradient': 'linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%)'
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "steel-gradient": "linear-gradient(90deg, #6c92c5 0%, #88acd2 100%)"
       }
     },
   },
