@@ -80,105 +80,60 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-24 px-6 bg-[#0a0a0a] relative overflow-hidden" id="contact" ref={sectionRef}>
-      {/* Code-inspired subtle background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 text-2xl text-primary">{`{`}</div>
-        <div className="absolute top-10 right-10 text-2xl text-primary">{`}`}</div>
-        <div className="absolute bottom-10 left-10 text-2xl text-primary">{`<`}</div>
-        <div className="absolute bottom-10 right-10 text-2xl text-primary">{`/>`}</div>
+    <section className="py-20 relative overflow-hidden" id="contact" ref={sectionRef}>
+      {/* Subtle accent glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-10 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
       </div>
 
-      {/* Animated particles */}
-      {particlesActive && (
-        <div className="particles-container absolute inset-0 pointer-events-none">
-          {[...Array(25)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="particle absolute w-1 h-1 rounded-full bg-primary"
-              initial={{ 
-                opacity: 0,
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight
-              }}
-              animate={{ 
-                opacity: [0, 0.5, 0],
-                x: window.innerWidth / 2 + Math.random() * 100 - 50,
-                y: window.innerHeight / 2 + Math.random() * 100 - 50,
-              }}
-              transition={{ 
-                duration: 3 + Math.random() * 5,
-                repeat: Infinity,
-                repeatType: "loop",
-                delay: Math.random() * 2
-              }}
-              style={{
-                width: 1 + Math.random() * 2 + 'px',
-                height: 1 + Math.random() * 2 + 'px',
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="section-container relative z-10">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
         >
           {/* Programming Quote */}
           <motion.div 
-            className="mb-12 p-8 border border-primary/20 rounded-lg relative bg-gradient-to-br from-background/80 to-background-alt/80 backdrop-blur-sm"
+            className="modern-card p-6 mb-10"
             variants={itemVariants}
           >
-            <div className="absolute top-0 left-0 text-4xl text-primary/40 -translate-x-1/2 -translate-y-1/2">{`"`}</div>
-            <div className="absolute bottom-0 right-0 text-4xl text-primary/40 translate-x-1/2 translate-y-1/2">{`"`}</div>
-            
-            <p className="text-xl italic text-text-secondary mb-4 font-mono">
-              <span className="text-primary">{`// `}</span>
+            <p className="text-lg italic text-slate-400 mb-2 font-mono">
+              <span className="text-primary">// </span>
               {randomQuote.quote}
             </p>
-            <p className="text-right text-sm text-text-secondary">— {randomQuote.author}</p>
+            <p className="text-right text-xs text-slate-500">— {randomQuote.author}</p>
           </motion.div>
 
           <motion.h2 
-            className="text-4xl font-bold mb-6 font-heading"
+            className="section-title"
             variants={itemVariants}
           >
-            Let's <span className="text-primary">Connect!</span>
+            <span className="gradient-text">Get In Touch</span>
           </motion.h2>
-          
-          <motion.div 
-            className="w-20 h-1 bg-gradient-to-r from-primary to-blue-400 rounded-full mx-auto"
-            variants={itemVariants}
-            initial={{ width: 0 }}
-            animate={isInView ? { width: 80 } : { width: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          ></motion.div>
         </motion.div>
         
         <motion.div 
-          className="max-w-3xl mx-auto backdrop-blur-sm bg-background-alt/30 p-10 rounded-xl border border-primary/20 shadow-xl"
+          className="max-w-3xl mx-auto modern-card p-8"
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="space-y-8">
+          <div className="space-y-0">
             {/* Email */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between p-4 border-b border-border/50 group hover:border-primary/50 transition-colors duration-300">
+            <div className="flex flex-col md:flex-row md:items-center justify-between p-4">
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-primary/10 text-primary mr-4 group-hover:bg-primary/20 transition-colors duration-300">
+                <div className="p-3 rounded-full bg-primary/10 text-primary mr-4">
                   <FaEnvelope className="text-xl" />
                 </div>
                 <div>
-                  <h4 className="text-sm uppercase tracking-wider text-text-secondary mb-1">Email</h4>
-                  <p className="text-lg text-text-primary font-medium">sharmahridyansh3@gmail.com</p>
+                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-1">Email</h4>
+                  <p className="text-lg text-foreground font-medium">sharmahridyansh3@gmail.com</p>
                 </div>
               </div>
               <motion.button
-                className="mt-4 md:mt-0 flex items-center space-x-2 text-text-secondary bg-background py-2 px-4 rounded-md hover:bg-primary/10 transition-all duration-300 group"
+                className="mt-4 md:mt-0 modern-btn-outline"
                 onClick={() => copyToClipboard("sharmahridyansh3@gmail.com")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -186,53 +141,56 @@ const Contact = () => {
               >
                 {copied ? (
                   <>
-                    <FaCheckCircle className="text-green-500" />
-                    <span>Copied!</span>
+                    <FaCheckCircle className="text-emerald-400 mr-2" />
+                    Copied!
                   </>
                 ) : (
                   <>
-                    <FaCopy className="group-hover:text-primary transition-colors duration-300" />
-                    <span>Copy</span>
+                    <FaCopy className="mr-2" />
+                    Copy
                   </>
                 )}
               </motion.button>
             </div>
+            <div className="card-divider" />
             
             {/* Phone */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between p-4 border-b border-border/50 group hover:border-primary/50 transition-colors duration-300">
+            <div className="flex flex-col md:flex-row md:items-center justify-between p-4">
               <div className="flex items-center">
-                <div className="p-3 rounded-full bg-primary/10 text-primary mr-4 group-hover:bg-primary/20 transition-colors duration-300">
+                <div className="p-3 rounded-full bg-primary/10 text-primary mr-4">
                   <FaPhone className="text-xl" />
                 </div>
                 <div>
-                  <h4 className="text-sm uppercase tracking-wider text-text-secondary mb-1">Phone</h4>
-                  <p className="text-lg text-text-primary font-medium">+91 9024266007</p>
+                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-1">Phone</h4>
+                  <p className="text-lg text-foreground font-medium">+91 9024266007</p>
                 </div>
               </div>
               <a
                 href="tel:+919024266007"
-                className="mt-4 md:mt-0 flex items-center space-x-2 text-text-secondary bg-background py-2 px-4 rounded-md hover:bg-primary/10 transition-all duration-300 group"
+                className="mt-4 md:mt-0 modern-btn-outline"
                 data-cursor-interactive
               >
-                <span className="group-hover:text-primary transition-colors duration-300">Call</span>
+                Call
               </a>
             </div>
+            <div className="card-divider" />
             
             {/* Location */}
-            <div className="flex items-center p-4 border-b border-border/50 group hover:border-primary/50 transition-colors duration-300">
-              <div className="p-3 rounded-full bg-primary/10 text-primary mr-4 group-hover:bg-primary/20 transition-colors duration-300">
+            <div className="flex items-center p-4">
+              <div className="p-3 rounded-full bg-primary/10 text-primary mr-4">
                 <FaMapMarkerAlt className="text-xl" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-wider text-text-secondary mb-1">Location</h4>
-                <p className="text-lg text-text-primary font-medium">Bhilwara, Rajasthan</p>
+                <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-1">Location</h4>
+                <p className="text-lg text-foreground font-medium">Bhilwara, Rajasthan</p>
               </div>
             </div>
+            <div className="card-divider" />
             
             {/* Social Links */}
-            <div className="flex flex-wrap justify-center pt-8">
-              <h4 className="w-full text-center text-text-secondary mb-6 uppercase tracking-wider text-sm">Find me on</h4>
-              <div className="flex space-x-6">
+            <div className="flex flex-wrap justify-center p-4">
+              <h4 className="w-full text-center text-slate-400 mb-6 uppercase tracking-wider text-xs">Find me on</h4>
+              <div className="flex gap-3 flex-wrap justify-center">
                 {[
                   { Icon: FaGithub, link: "https://github.com/Ridh1234", label: "GitHub" },
                   { Icon: FaLinkedin, link: "https://www.linkedin.com/in/hridyansh-sharma/", label: "LinkedIn" },
@@ -242,13 +200,13 @@ const Contact = () => {
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-background-alt hover:bg-primary/20 text-text-primary hover:text-primary p-4 rounded-lg flex flex-col items-center justify-center transition-all duration-300"
-                    whileHover={{ y: -5, scale: 1.1 }}
+                    className="modern-btn-outline"
+                    whileHover={{ y: -3, scale: 1.04 }}
                     data-cursor-interactive
                     aria-label={social.label}
                   >
-                    <social.Icon className="text-2xl" />
-                    <span className="text-xs mt-2">{social.label}</span>
+                    <social.Icon className="text-base mr-2" />
+                    {social.label}
                   </motion.a>
                 ))}
               </div>
