@@ -124,63 +124,64 @@ const Projects = () => {
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
 
   return (
-    <section className="py-20 px-6 bg-background" id="projects" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20" id="projects" ref={sectionRef}>
+      <div className="section-container">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-4xl font-bold mb-4 font-heading inline-block"
+            className="section-title"
             initial={{ opacity: 0, y: -20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            My <span className="text-primary">Projects</span>
+            <span className="gradient-text">Projects</span>
           </motion.h2>
-          <motion.div
-            className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto"
-            initial={{ opacity: 0, width: 0 }}
-            animate={isInView ? { opacity: 1, width: 80 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          />
           <motion.p
-            className="text-text-secondary mt-6 max-w-2xl mx-auto"
+            className="text-slate-400 mt-4 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             Explore my real-world software projects across AI, web development, computer vision, and speech processing.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-              className="flex flex-col md:flex-row justify-between gap-6 p-6 border border-border rounded-2xl shadow-sm hover:shadow-md transition-all bg-card"
+              transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
+              className="modern-card p-6 hover:border-primary/60"
             >
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-foreground mb-2">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-lg font-semibold text-foreground leading-snug">
                   {project.title}
                 </h3>
-                <p className="text-text-secondary text-sm mb-4">
-                  {project.description}
-                </p>
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-2 px-5 py-2 text-white bg-blue-700 hover:bg-blue-800 text-sm font-medium rounded-full"
+                  className="modern-btn-outline whitespace-nowrap"
                 >
-                  {project.buttonText ?? "View in Detail"}
+                  {project.buttonText ?? "View"}
                 </a>
               </div>
-              <div className="flex-1 flex flex-wrap gap-3 items-start mt-4 md:mt-0">
+
+              <div className="card-divider my-4" />
+
+              {/* Description */}
+              <p className="text-slate-400 text-sm mb-4">
+                {project.description}
+              </p>
+
+              {/* Footer tags */}
+              <div className="flex flex-wrap gap-2 items-start">
                 {project.tags.map((tag, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium shadow-sm backdrop-blur-sm"
+                    className="modern-tag gap-2"
                   >
                     {iconMap[tag] ?? <FaTools className="text-xl" />} {tag}
                   </div>
@@ -198,7 +199,8 @@ const Projects = () => {
         >
           <a
             href="https://github.com/Ridh1234?tab=repositories"
-            className="inline-flex items-center px-6 py-3 border border-blue-800 text-blue-800 rounded-full font-semibold hover:bg-blue-800 hover:text-white transition-all"
+            className="modern-btn-outline"
+            target="_blank"
           >
             View All Projects
           </a>
