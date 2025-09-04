@@ -1,80 +1,91 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const CustomCursor = () => {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-
-    if (!cursor || !cursorDot) return;
-
-    const mouseMoveHandler = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      
-      cursor.style.transform = `translate3d(${clientX - 10}px, ${clientY - 10}px, 0)`;
-      cursorDot.style.transform = `translate3d(${clientX - 3}px, ${clientY - 3}px, 0)`;
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const mouseDownHandler = () => {
-      cursor.style.transform = `translate3d(${parseInt(cursor.style.transform.split("(")[1]) - 5}px, ${parseInt(cursor.style.transform.split(", ")[1]) - 5}px, 0) scale(0.7)`;
-      cursorDot.style.transform = `translate3d(${parseInt(cursorDot.style.transform.split("(")[1]) - 1}px, ${parseInt(cursorDot.style.transform.split(", ")[1]) - 1}px, 0) scale(0.7)`;
-    };
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
 
-    const mouseUpHandler = () => {
-      cursor.style.transform = `translate3d(${parseInt(cursor.style.transform.split("(")[1]) + 5}px, ${parseInt(cursor.style.transform.split(", ")[1]) + 5}px, 0) scale(1)`;
-      cursorDot.style.transform = `translate3d(${parseInt(cursorDot.style.transform.split("(")[1]) + 1}px, ${parseInt(cursorDot.style.transform.split(", ")[1]) + 1}px, 0) scale(1)`;
-    };
-
-    const addEventListeners = () => {
-      document.addEventListener("mousemove", mouseMoveHandler);
-      document.addEventListener("mousedown", mouseDownHandler);
-      document.addEventListener("mouseup", mouseUpHandler);
-    };
-
-    const removeEventListeners = () => {
-      document.removeEventListener("mousemove", mouseMoveHandler);
-      document.removeEventListener("mousedown", mouseDownHandler);
-      document.removeEventListener("mouseup", mouseUpHandler);
-    };
-
-    // Add interactive elements hover effect
-    const handleElementsHover = () => {
-      const interactiveElements = document.querySelectorAll('[data-cursor-interactive]');
-      
-      interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-          setIsHovering(true);
-          cursor.style.transform = `translate3d(${parseInt(cursor.style.transform.split("(")[1])}px, ${parseInt(cursor.style.transform.split(", ")[1])}px, 0) scale(1.5)`;
-          cursor.style.border = '2px solid hsl(var(--primary))';
-          cursorDot.style.width = '0px';
-          cursorDot.style.height = '0px';
-        });
-        
-        element.addEventListener('mouseleave', () => {
-          setIsHovering(false);
-          cursor.style.transform = `translate3d(${parseInt(cursor.style.transform.split("(")[1])}px, ${parseInt(cursor.style.transform.split(", ")[1])}px, 0) scale(1)`;
-          cursor.style.border = '2px solid hsl(var(--primary))';
-          cursorDot.style.width = '6px';
-          cursorDot.style.height = '6px';
-        });
-      });
-    };
-
-    addEventListeners();
-    handleElementsHover();
+    // Add event listeners
+    window.addEventListener('mousemove', updateMousePosition);
+    
+    // Add hover listeners to interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, [data-cursor-interactive]');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
+    });
 
     return () => {
-      removeEventListeners();
+      window.removeEventListener('mousemove', updateMousePosition);
+      interactiveElements.forEach(el => {
+        el.removeEventListener('mouseenter', handleMouseEnter);
+        el.removeEventListener('mouseleave', handleMouseLeave);
+      });
     };
+  }, []);
+
+  // Don't render on mobile devices
+  useEffect(() => {
+    const isMobile = window.matchMedia('(pointer: coarse)').matches;
+    if (isMobile) return;
   }, []);
 
   return (
     <>
-      <div ref={cursorRef} className="cursor"></div>
-      <div ref={cursorDotRef} className="cursor-dot"></div>
+      {/* Main cursor */}
+      <motion.div
+        className="cursor"
+        animate={{
+          x: mousePosition.x - 10,
+          y: mousePosition.y - 10,
+          scale: isHovering ? 1.5 : 1,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 500,
+          damping: 28,
+          scale: { duration: 0.2 }
+        }}
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          pointerEvents: 'none',
+          zIndex: 9999,
+          mixBlendMode: 'difference',
+        }}
+      />
+      
+      {/* Cursor dot */}
+      <motion.div
+        className="cursor-dot"
+        animate={{
+          x: mousePosition.x - 2,
+          y: mousePosition.y - 2,
+          scale: isHovering ? 0 : 1,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 800,
+          damping: 35,
+          scale: { duration: 0.2 }
+        }}
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          pointerEvents: 'none',
+          zIndex: 9999,
+        }}
+      />
     </>
   );
 };
