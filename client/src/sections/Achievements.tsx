@@ -116,19 +116,16 @@ const Achievements: React.FC = () => {
   };
 
   return (
-    <section className="py-20 px-6 bg-background" id="achievements" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20" id="achievements" ref={sectionRef}>
+      <div className="section-container">
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl font-bold mb-4 font-heading">
-            <span className="text-primary">Technical</span> Achievements
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto"></div>
-          <p className="text-text-secondary mt-6 max-w-2xl mx-auto">
+          <h2 className="section-title"><span className="gradient-text">Achievements</span></h2>
+          <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
             A showcase of my technical proficiency and professional development milestones
           </p>
         </motion.div>
@@ -138,11 +135,11 @@ const Achievements: React.FC = () => {
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="mb-20"
+          className="mb-16"
         >
           <motion.h3 
             variants={fadeIn}
-            className="text-2xl font-bold mb-8 text-center font-heading text-primary"
+            className="text-xl font-semibold mb-6 text-center text-blue-300"
           >
             Competitive Programming
           </motion.h3>
@@ -153,29 +150,27 @@ const Achievements: React.FC = () => {
                 key={index}
                 variants={fadeIn}
                 transition={{ delay: 0.1 * index }}
-                className="bg-background-alt rounded-lg border border-border shadow-md hover:shadow-lg hover:shadow-primary/10 transform hover:-translate-y-1 transition-all duration-300"
+                className="modern-card p-6 hover:border-primary/60"
                 data-cursor-interactive
               >
-                <div className="bg-gradient-to-r from-primary to-secondary h-2 rounded-t-lg"></div>
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-background rounded-lg flex items-center justify-center text-primary mr-4 border border-border">
-                      <i className={`${item.icon} text-xl`}></i>
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-text-primary">{item.metric}</h4>
-                      <p className="text-secondary text-sm font-medium">{item.title}</p>
-                    </div>
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-background rounded-lg flex items-center justify-center text-primary mr-4 border border-border">
+                    <i className={`${item.icon} text-xl`}></i>
                   </div>
-                  <p className="text-text-secondary text-sm">{item.description}</p>
+                  <div>
+                    <h4 className="text-lg font-bold text-foreground">{item.metric}</h4>
+                    <p className="text-slate-400 text-sm font-medium">{item.title}</p>
+                  </div>
                 </div>
+                <div className="card-divider my-3" />
+                <p className="text-slate-400 text-sm">{item.description}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
         
         {/* Two Column Layout for Certifications and Coursework */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Certifications */}
           <motion.div
             variants={staggerContainer}
@@ -184,7 +179,7 @@ const Achievements: React.FC = () => {
           >
             <motion.h3 
               variants={fadeIn}
-              className="text-2xl font-bold mb-6 font-heading text-primary"
+              className="text-xl font-semibold mb-6 text-blue-300"
             >
               Professional Development
             </motion.h3>
@@ -194,25 +189,26 @@ const Achievements: React.FC = () => {
                 <motion.div 
                   key={index}
                   variants={fadeIn}
-                  className="bg-background-alt p-6 rounded-lg shadow-md border border-border hover:shadow-lg hover:shadow-primary/10 transition-all"
+                  className="modern-card p-6"
                   data-cursor-interactive
                 >
                   <div className="flex items-start">
                     <div className="min-w-[60px] h-16 flex flex-col items-center justify-center mr-4">
                       <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center border border-border">
-                        <span className="text-secondary font-bold">{cert.year}</span>
+                        <span className="text-slate-300 font-bold">{cert.year}</span>
                       </div>
                     </div>
                     <div>
                       {cert.link ? (
-                        <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-text-primary hover:underline">
+                        <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-foreground hover:underline">
                           {cert.title}
                         </a>
                       ) : (
-                        <h4 className="text-lg font-semibold text-text-primary">{cert.title}</h4>
+                        <h4 className="text-lg font-semibold text-foreground">{cert.title}</h4>
                       )}
-                      <p className="text-secondary font-medium text-sm">{cert.organization}</p>
-                      <p className="mt-2 text-text-secondary text-sm">{cert.description}</p>
+                      <p className="text-slate-400 font-medium text-sm">{cert.organization}</p>
+                      <div className="card-divider my-3" />
+                      <p className="text-slate-400 text-sm">{cert.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -228,14 +224,14 @@ const Achievements: React.FC = () => {
           >
             <motion.h3 
               variants={fadeIn}
-              className="text-2xl font-bold mb-6 font-heading text-primary"
+              className="text-xl font-semibold mb-6 text-blue-300"
             >
               Relevant Coursework
             </motion.h3>
             
             <motion.div 
               variants={fadeIn}
-              className="bg-background-alt p-6 rounded-lg shadow-md border border-border"
+              className="modern-card p-6"
             >
               <div className="flex flex-wrap gap-3">
                 {coursework.map((course, index) => (
@@ -243,7 +239,7 @@ const Achievements: React.FC = () => {
                     key={index}
                     variants={fadeIn}
                     transition={{ delay: 0.03 * index }}
-                    className="px-4 py-2 bg-background text-primary rounded-full text-sm font-medium border border-primary/30 hover:border-primary hover:bg-primary/5 transition-all cursor-default"
+                    className="modern-tag"
                   >
                     {course}
                   </motion.span>
@@ -255,8 +251,8 @@ const Achievements: React.FC = () => {
                 transition={{ delay: 0.5 }}
                 className="mt-8 p-4 bg-background rounded-lg border border-border"
               >
-                <h4 className="font-semibold text-text-primary mb-2">Educational Focus</h4>
-                <p className="text-text-secondary text-sm">
+                <h4 className="font-semibold text-foreground mb-2">Educational Focus</h4>
+                <p className="text-slate-400 text-sm">
                   Comprehensive curriculum covering core computer science principles, software development methodologies, and advanced topics in artificial intelligence and machine learning.
                 </p>
               </motion.div>
