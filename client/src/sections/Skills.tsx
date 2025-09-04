@@ -59,7 +59,7 @@ const Skills = () => {
   const skillCategories: SkillCategory[] = [
     {
       id: "frontend",
-      title: "FRONTEND",
+      title: "Frontend",
       skills: [
         { id: "react", name: "React", icon: FaReact, color: "#61DAFB" },
         { id: "html", name: "HTML5", icon: FaHtml5, color: "#E34F26" },
@@ -73,7 +73,7 @@ const Skills = () => {
     },
     {
       id: "backend",
-      title: "BACKEND",
+      title: "Backend",
       skills: [
         { id: "nodejs", name: "Node.js", icon: FaNodeJs, color: "#68A063" },
         { id: "express", name: "Express.js", icon: SiExpress, color: "#000000" },
@@ -86,7 +86,7 @@ const Skills = () => {
     },
     {
       id: "languages",
-      title: "LANGUAGES",
+      title: "Languages",
       skills: [
         { id: "javascript", name: "JavaScript", icon: FaJs, color: "#F0DB4F" },
         { id: "typescript", name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
@@ -109,7 +109,7 @@ const Skills = () => {
     },
     {
       id: "devops",
-      title: "DEVOPS & TOOLS",
+      title: "DevOps & Tools",
       skills: [
         { id: "git", name: "Git", icon: FaGitAlt, color: "#F05032" },
         { id: "docker", name: "Docker", icon: FaDocker, color: "#2496ED" },
@@ -146,55 +146,49 @@ const Skills = () => {
   };
 
   return (
-    <section ref={ref} id="skills" className="py-20 bg-[#111] relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-500/5 rounded-full blur-3xl"></div>
+    <section ref={ref} id="skills" className="py-20 relative overflow-hidden">
+      {/* Subtle accent glows */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="section-container relative z-10">
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-16 text-center text-white"
+          className="section-title text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
         >
-          Technical <span className="text-primary">Skills</span>
+          <span className="gradient-text">Skills</span>
         </motion.h2>
 
-        <div className="space-y-16">
+        <div className="space-y-8">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.id}
-              className="skill-category"
               custom={categoryIndex}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={sectionVariants}
+              className="modern-card p-6"
             >
-              <h3 className="text-3xl font-bold text-[#aaa] uppercase mb-8 tracking-wider">
-                {category.title}
-              </h3>
-
+              <h3 className="text-lg font-semibold text-foreground mb-4 tracking-wide">{category.title}</h3>
+              <div className="card-divider mb-4" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {category.skills.map((skill, skillIndex) => (
                   <motion.div
                     key={skill.id}
-                    className="flex items-center bg-[#1a1a1a] rounded-lg p-4 hover:bg-[#222] transition-all duration-300 border border-[#333]"
+                    className="modern-card p-4 flex items-center hover:border-primary/60"
                     custom={skillIndex}
                     variants={itemVariants}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      boxShadow: `0 0 20px ${skill.color}30`,
-                      borderColor: skill.color 
-                    }}
+                    whileHover={{ scale: 1.03 }}
                   >
                     <div 
-                      className="w-12 h-12 flex items-center justify-center mr-4 rounded-full bg-[#222] p-3"
+                      className="w-10 h-10 flex items-center justify-center mr-4 rounded-full bg-background"
                       style={{ color: skill.color }}
                     >
-                      <skill.icon className="text-2xl" />
+                      <skill.icon className="text-xl" />
                     </div>
-                    <span className="text-white font-medium">{skill.name}</span>
+                    <span className="text-foreground font-medium">{skill.name}</span>
                   </motion.div>
                 ))}
               </div>
